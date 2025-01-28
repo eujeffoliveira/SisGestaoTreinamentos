@@ -1,0 +1,147 @@
+/* static/css/style.css */
+
+/* =========================================
+   Estilos Globais
+   ========================================= */
+   body {
+    font-family: Arial, sans-serif; /* Define a fonte padrão para todo o corpo do documento */
+    line-height: 1.6; /* Define o espaçamento entre linhas para melhor legibilidade */
+    color: #333; /* Define a cor do texto padrão */
+}
+
+/* =========================================
+   Estilos para Páginas de Erro
+   ========================================= */
+.error-page {
+    text-align: center; /* Centraliza o conteúdo da página de erro */
+    padding: 50px; /* Adiciona espaço interno ao redor do conteúdo */
+    background-color: #f0f0f0; /* Define um fundo cinza claro */
+}
+
+.error-page h1 {
+    color: #d9534f; /* Define a cor do título para um tom de vermelho */
+    font-size: 2.5em; /* Aumenta o tamanho da fonte do título */
+    margin-bottom: 20px; /* Adiciona espaço abaixo do título */
+}
+
+.error-page p {
+    font-size: 1.1em; /* Aumenta ligeiramente o tamanho da fonte dos parágrafos */
+    margin-bottom: 15px; /* Adiciona espaço abaixo dos parágrafos */
+}
+
+.error-page a {
+    color: #0275d8; /* Define a cor dos links para azul */
+    text-decoration: none; /* Remove o sublinhado padrão dos links */
+}
+
+.error-page a:hover {
+    text-decoration: underline; /* Adiciona sublinhado aos links quando o mouse passa por cima */
+}
+
+.error-details {
+    margin-top: 30px; /* Adiciona espaço acima dos detalhes do erro */
+    font-size: 0.9em; /* Reduz ligeiramente o tamanho da fonte dos detalhes */
+    color: #777; /* Define uma cor de texto mais clara para os detalhes */
+    border-top: 1px solid #ddd; /* Adiciona uma linha separadora acima dos detalhes */
+    padding-top: 20px; /* Adiciona espaço acima do conteúdo dos detalhes */
+}
+
+.error-details p {
+    margin: 5px 0; /* Adiciona um pequeno espaço vertical entre os parágrafos dos detalhes */
+}
+
+.error-page pre {
+    background-color: #f8f8f8; /* Define um fundo cinza claro para blocos de código */
+    border: 1px solid #ddd; /* Adiciona uma borda ao redor do bloco de código */
+    border-radius: 4px; /* Arredonda os cantos do bloco de código */
+    padding: 15px; /* Adiciona espaço interno ao bloco de código */
+    overflow-x: auto; /* Adiciona uma barra de rolagem horizontal se o conteúdo for muito largo */
+    font-size: 0.9em; /* Reduz ligeiramente o tamanho da fonte do código */
+    margin-top: 20px; /* Adiciona espaço acima do bloco de código */
+}
+
+/* =========================================
+   Estilos da Página Inicial (Hero Section)
+   ========================================= */
+.hero-section {
+    height: 100vh; /* Ocupa toda a altura da viewport */
+    background-image: url('../images/background.jpg'); /* Define a imagem de fundo */
+    background-size: cover; /* Cobre toda a área com a imagem de fundo */
+    background-position: center; /* Centraliza a imagem de fundo */
+    display: flex; /* Usa flexbox para centralizar o conteúdo */
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+}
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
+    padding: 2rem; /* Espaçamento interno */
+    text-align: center; /* Centraliza o texto */
+    border-radius: 10px; /* Cantos arredondados */
+}
+
+.hero-section h1 {
+    color: white; /* Texto branco para contraste */
+    font-size: 2.5rem; /* Tamanho grande para destaque */
+    margin-bottom: 1rem; /* Espaço abaixo do título */
+}
+
+.divider {
+    width: 80%; /* Largura de 80% do container */
+    margin: 1rem auto; /* Centraliza horizontalmente com espaço vertical */
+    border-top: 2px solid white; /* Linha branca */
+}
+
+.logo {
+    max-width: 200px; /* Largura máxima do logo */
+    height: auto; /* Mantém a proporção da imagem */
+}
+
+/* =========================================
+   Estilos da Sidebar e Navegação
+   ========================================= */
+#sidebar {
+    transition: width 0.3s ease; /* Animação suave ao expandir/colapsar */
+    width: 250px; /* Largura da sidebar expandida */
+    height: 100vh; /* Altura total da viewport */
+    position: fixed; /* Mantém a sidebar fixa durante a rolagem */
+}
+
+#sidebar.collapsed {
+    width: 4.5rem; /* Largura reduzida quando colapsada */
+}
+
+#sidebar.collapsed .d-sm-inline {
+    display: none !important; /* Oculta textos quando colapsada */
+}
+
+/* Ajustes do conteúdo principal */
+#content {
+    transition: margin-left 0.3s ease; /* Animação suave do margin */
+    margin-left: 250px; /* Margem inicial igual à largura da sidebar */
+}
+
+#content.expanded {
+    margin-left: 4.5rem; /* Margem reduzida quando sidebar está colapsada */
+}
+
+/* Estilo para o logo da sidebar */
+.sidebar-logo {
+    max-width: 30px; /* Largura máxima reduzida */
+    height: auto; /* Mantém a proporção */
+    margin: 5px 0; /* Adiciona um pequeno espaçamento vertical */
+}
+
+
+/* Estilos dos links de navegação */
+.nav-link {
+    color: #fff; /* Cor do texto dos links */
+    transition: all 0.3s; /* Transição suave para hover */
+    padding: 0.5rem 1rem; /* Espaçamento interno dos links */
+}
+
+.nav-link:hover {
+    color: #0d6efd; /* Cor ao passar o mouse */
+    background-color: rgba(255, 255, 255, 0.1); /* Fundo sutil ao hover */
+}
+

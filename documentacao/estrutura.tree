@@ -1,60 +1,84 @@
-📦SisGestaoTreinamentos
- ┣ 📂app
- ┃ ┣ 📂autenticacao
- ┃ ┃ ┣ 📜models.py
- ┃ ┃ ┣ 📜routes.py
- ┃ ┃ ┗ 📜__init__.py
- ┃ ┣ 📂cargo
- ┃ ┃ ┣ 📜models.py
- ┃ ┃ ┣ 📜routes.py
- ┃ ┃ ┗ 📜__init__.py
- ┃ ┣ 📂centrodecusto
- ┃ ┃ ┣ 📜models.py
- ┃ ┃ ┣ 📜routes.py
- ┃ ┃ ┗ 📜__init__.py
- ┃ ┣ 📂colaborador
- ┃ ┃ ┣ 📜models.py
- ┃ ┃ ┣ 📜routes.py
- ┃ ┃ ┗ 📜__init__.py
- ┃ ┣ 📂departamento
- ┃ ┃ ┣ 📜models.py
- ┃ ┃ ┣ 📜routes.py
- ┃ ┃ ┗ 📜__init__.py
- ┃ ┣ 📂treinamento
- ┃ ┃ ┣ 📜models.py
- ┃ ┃ ┣ 📜routes.py
- ┃ ┃ ┗ 📜__init__.py
- ┃ ┣ 📂treina_cargo
- ┃ ┃ ┣ 📜models.py
- ┃ ┃ ┣ 📜routes.py
- ┃ ┃ ┗ 📜__init__.py
- ┃ ┣ 📂treina_colaborador
- ┃ ┃ ┣ 📜models.py
- ┃ ┃ ┣ 📜routes.py
- ┃ ┃ ┗ 📜__init__.py
- ┃ ┣ 📜config.py
- ┃ ┣ 📜extensions.py
- ┃ ┗ 📜__init__.py
- ┣ 📂documentacao
- ┃ ┣ 📜estrutura.tree
- ┃ ┣ 📜requirements.txt
- ┃ ┗ 📜scriptBD.sql
- ┣ 📂migrations
- ┣ 📂static
- ┃ ┣ 📂css
- ┃ ┣ 📂images
- ┃ ┗ 📂js
- ┣ 📂templates
- ┃ ┣ 📂autenticacao
- ┃ ┣ 📂cargo
- ┃ ┣ 📂centrodecusto
- ┃ ┣ 📂colaboradore
- ┃ ┣ 📂departamento
- ┃ ┣ 📂treinamento
- ┃ ┣ 📂treina_cargo
- ┃ ┗ 📂treina_colaborador
- ┣ 📜.env
- ┣ 📜.gitattributes
- ┣ 📜.gitignore
- ┣ 📜README.md
- ┗ 📜run.py
+SisGestaoTreinamentos
+ ┣ app
+ ┃ ┣ autenticacao
+ ┃ ┃ ┣ models.py
+ ┃ ┃ ┣ routes.py
+ ┃ ┃ ┗ __init__.py
+ ┃ ┣ cargo
+ ┃ ┃ ┣ __pycache__
+ ┃ ┃ ┃ ┣ models.cpython-313.pyc
+ ┃ ┃ ┃ ┣ routes.cpython-313.pyc
+ ┃ ┃ ┃ ┗ __init__.cpython-313.pyc
+ ┃ ┃ ┣ models.py
+ ┃ ┃ ┣ routes.py
+ ┃ ┃ ┗ __init__.py
+ ┃ ┣ centrodecusto
+ ┃ ┃ ┣ models.py
+ ┃ ┃ ┣ routes.py
+ ┃ ┃ ┗ __init__.py
+ ┃ ┣ colaborador
+ ┃ ┃ ┣ models.py
+ ┃ ┃ ┣ routes.py
+ ┃ ┃ ┗ __init__.py
+ ┃ ┣ departamento
+ ┃ ┃ ┣ models.py
+ ┃ ┃ ┣ routes.py
+ ┃ ┃ ┗ __init__.py
+ ┃ ┣ errors
+ ┃ ┃ ┣ templates
+ ┃ ┃ ┃ ┣ 404.html
+ ┃ ┃ ┃ ┗ 500.html
+ ┃ ┃ ┣ __pycache__
+ ┃ ┃ ┃ ┣ handlers.cpython-313.pyc
+ ┃ ┃ ┃ ┗ __init__.cpython-313.pyc
+ ┃ ┃ ┣ handlers.py
+ ┃ ┃ ┗ __init__.py
+ ┃ ┣ treinamento
+ ┃ ┃ ┣ models.py
+ ┃ ┃ ┣ routes.py
+ ┃ ┃ ┗ __init__.py
+ ┃ ┣ treina_cargo
+ ┃ ┃ ┣ models.py
+ ┃ ┃ ┣ routes.py
+ ┃ ┃ ┗ __init__.py
+ ┃ ┣ treina_colaborador
+ ┃ ┃ ┣ models.py
+ ┃ ┃ ┣ routes.py
+ ┃ ┃ ┗ __init__.py
+ ┃ ┣ __pycache__
+ ┃ ┃ ┣ config.cpython-313.pyc
+ ┃ ┃ ┣ extensions.cpython-313.pyc
+ ┃ ┃ ┗ __init__.cpython-313.pyc
+ ┃ ┣ config.py
+ ┃ ┣ extensions.py
+ ┃ ┗ __init__.py
+ ┣ documentacao
+ ┃ ┣ estrutura.tree
+ ┃ ┣ requirements.txt
+ ┃ ┗ scriptBD.sql
+ ┣ static
+ ┃ ┣ css
+ ┃ ┃ ┗ style.css
+ ┃ ┣ images
+ ┃ ┃ ┣ background.jpg
+ ┃ ┃ ┣ logo-pb.png
+ ┃ ┃ ┗ logo.png
+ ┃ ┗ js
+ ┣ templates
+ ┃ ┣ autenticacao
+ ┃ ┣ cargo
+ ┃ ┣ centrodecusto
+ ┃ ┣ colaboradore
+ ┃ ┣ departamento
+ ┃ ┣ error
+ ┃ ┣ home
+ ┃ ┃ ┗ Index.html
+ ┃ ┣ treinamento
+ ┃ ┣ treina_cargo
+ ┃ ┣ treina_colaborador
+ ┃ ┗ _Layout.html
+ ┣ .env
+ ┣ .gitattributes
+ ┣ .gitignore
+ ┣ README.md
+ ┗ run.py
