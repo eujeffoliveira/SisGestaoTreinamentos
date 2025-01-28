@@ -18,6 +18,7 @@ SisGestaoTreinamentos
  ┃ ┣ treina_cargo
  ┃ ┗ treina_colaborador
  ┣ documentacao
+ ┃ ┣ requirements.txt
  ┃ ┗ scriptBD.sql
  ┣ migrations
  ┣ static
@@ -36,6 +37,5 @@ SisGestaoTreinamentos
  ┣ .env
  ┣ .gitattributes
  ┣ .gitignore
- ┣ README.md
- ┗ requirements.txt
+ ┗ README.md
  ```

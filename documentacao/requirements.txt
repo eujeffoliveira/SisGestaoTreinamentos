@@ -1,0 +1,11 @@
+flask
+pyodbc
+flask_sqlalchemy
+flask-migrate
+python-dotenv
+plotly
+pandas
+flask-login
+flask-bcrypt
+wfastcgi
+pyodbc

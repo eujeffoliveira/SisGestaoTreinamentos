@@ -1,0 +1,60 @@
+📦SisGestaoTreinamentos
+ ┣ 📂app
+ ┃ ┣ 📂autenticacao
+ ┃ ┃ ┣ 📜models.py
+ ┃ ┃ ┣ 📜routes.py
+ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┣ 📂cargo
+ ┃ ┃ ┣ 📜models.py
+ ┃ ┃ ┣ 📜routes.py
+ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┣ 📂centrodecusto
+ ┃ ┃ ┣ 📜models.py
+ ┃ ┃ ┣ 📜routes.py
+ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┣ 📂colaborador
+ ┃ ┃ ┣ 📜models.py
+ ┃ ┃ ┣ 📜routes.py
+ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┣ 📂departamento
+ ┃ ┃ ┣ 📜models.py
+ ┃ ┃ ┣ 📜routes.py
+ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┣ 📂treinamento
+ ┃ ┃ ┣ 📜models.py
+ ┃ ┃ ┣ 📜routes.py
+ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┣ 📂treina_cargo
+ ┃ ┃ ┣ 📜models.py
+ ┃ ┃ ┣ 📜routes.py
+ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┣ 📂treina_colaborador
+ ┃ ┃ ┣ 📜models.py
+ ┃ ┃ ┣ 📜routes.py
+ ┃ ┃ ┗ 📜__init__.py
+ ┃ ┣ 📜config.py
+ ┃ ┣ 📜extensions.py
+ ┃ ┗ 📜__init__.py
+ ┣ 📂documentacao
+ ┃ ┣ 📜estrutura.tree
+ ┃ ┣ 📜requirements.txt
+ ┃ ┗ 📜scriptBD.sql
+ ┣ 📂migrations
+ ┣ 📂static
+ ┃ ┣ 📂css
+ ┃ ┣ 📂images
+ ┃ ┗ 📂js
+ ┣ 📂templates
+ ┃ ┣ 📂autenticacao
+ ┃ ┣ 📂cargo
+ ┃ ┣ 📂centrodecusto
+ ┃ ┣ 📂colaboradore
+ ┃ ┣ 📂departamento
+ ┃ ┣ 📂treinamento
+ ┃ ┣ 📂treina_cargo
+ ┃ ┗ 📂treina_colaborador
+ ┣ 📜.env
+ ┣ 📜.gitattributes
+ ┣ 📜.gitignore
+ ┣ 📜README.md
+ ┗ 📜run.py
