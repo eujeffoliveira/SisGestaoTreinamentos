@@ -83,7 +83,7 @@ function initializeDataTable(containerId, valueNames) {
         var options = {
             valueNames: valueNames,
             searchColumns: valueNames,
-            page: 10,
+            page: 15,
             pagination: {
                 paginationClass: 'pagination',
                 outerWindow: 1, // Número de páginas exibidas antes e depois da página atual

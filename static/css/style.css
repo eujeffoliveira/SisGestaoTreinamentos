@@ -190,7 +190,6 @@ body {
     /* Adiciona um pequeno espaçamento vertical */
 }
 
-
 /* Estilos dos links de navegação */
 .nav-link {
     color: #fff;
@@ -207,6 +206,32 @@ body {
     background-color: rgba(255, 255, 255, 0.1);
     /* Fundo sutil ao hover */
 }
+
+/* Estilos para a área do usuário na sidebar */
+.user-info {
+    padding: 1rem;
+    /* Espaçamento interno */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    /* Linha separadora sutil */
+}
+
+.user-info .text-muted {
+    font-size: 0.8rem;
+    /* Tamanho menor para o texto do perfil */
+    opacity: 0.7;
+    /* Mais suave */
+}
+
+/* Ajuste para quando a sidebar está colapsada */
+#sidebar.collapsed .user-info span,
+#sidebar.collapsed .user-info small {
+    display: none;
+}
+
+#sidebar.collapsed .user-info i {
+    margin: 0 auto;
+}
+
 
 /* =========================================
    Estilos Genéricos para Tabelas Dinâmicas
@@ -406,4 +431,42 @@ body {
     /* Largura proporcional da coluna Ações */
     min-width: 100px;
     /* Largura mínima para responsividade */
+}
+
+/* =========================================
+   Estilos da Página de Login
+   ========================================= */
+.card {
+    margin-top: 2rem;
+    /* Espaço acima do card */
+    border: none;
+    /* Remove a borda padrão */
+    border-radius: 10px;
+    /* Cantos mais arredondados */
+}
+
+.card-body {
+    padding: 2rem;
+    /* Mais espaço interno */
+}
+
+.form-control {
+    border-radius: 5px;
+    /* Cantos levemente arredondados */
+    padding: 0.75rem;
+    /* Mais espaço interno nos inputs */
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+    /* Cor da borda ao focar */
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    /* Sombra ao focar */
+}
+
+.btn-primary {
+    padding: 0.75rem;
+    /* Mais altura no botão */
+    font-weight: 500;
+    /* Texto um pouco mais bold */
 }

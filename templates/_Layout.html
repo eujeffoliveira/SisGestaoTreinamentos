@@ -27,93 +27,49 @@
                         </button>
                     </div>
 
-                    <!-- Menu Principal -->
-                    <ul class="nav flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                        <li class="nav-item">
-                            <a href="/" class="nav-link px-0">
-                                <i class="bi bi-house-door"></i>
-                                <span class="ms-1 d-sm-inline">Home</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/cargos" class="nav-link px-0">
-                                <i class="bi bi-person-badge"></i>
-                                <span class="ms-1 d-sm-inline">Cargos</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/centrodecusto" class="nav-link px-0">
-                                <i class="bi bi-building"></i>
-                                <span class="ms-1 d-sm-inline">Centro de Custo</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/departamentos" class="nav-link px-0">
-                                <i class="bi bi-diagram-3"></i>
-                                <span class="ms-1 d-sm-inline">Departamentos</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/colaboradores" class="nav-link px-0">
-                                <i class="bi bi-people"></i>
-                                <span class="ms-1 d-sm-inline">Colaboradores</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/treinamentos" class="nav-link px-0">
-                                <i class="bi bi-journal-text"></i>
-                                <span class="ms-1 d-sm-inline">Treinamentos</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/treina_cargo" class="nav-link px-0">
-                                <i class="bi bi-person-workspace"></i>
-                                <span class="ms-1 d-sm-inline">Treinamentos Por Cargo</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/treina_colaborador" class="nav-link px-0">
-                                <i class="bi bi-person-video3"></i>
-                                <span class="ms-1 d-sm-inline">Treinamentos Por Colaborador</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/dashboard" class="nav-link px-0">
-                                <i class="bi bi-speedometer2"></i>
-                                <span class="ms-1 d-sm-inline">Dashboard</span>
-                            </a>
-                        </li>
-                    </ul>
+                    <!-- Informações do Usuário -->
+                    {% if current_user.is_authenticated %}
+                    <div class="user-info w-100 mb-3">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-person-circle fs-4 me-2"></i>
+                            <div class="d-flex flex-column">
+                                <span class="fs-6">{{ current_user.NOME_USUARIO }}</span>
+                                <small class="text-muted">{{ current_user.role.NOME_ROLE }}</small>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('auth.logout') }}" class="btn btn-sm btn-outline-light mt-2 w-100">
+                            <i class="bi bi-box-arrow-right"></i> Sair
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    <!-- Conteúdo principal -->
+                    <div id="content" class="col py-3">
+                        {% block content %}{% endblock %}
+                    </div>
                 </div>
             </div>
 
-            <!-- Conteúdo principal -->
-            <div id="content" class="col py-3">
-                {% block content %}{% endblock %}
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer mt-auto py-2 bg-light">
-        <div class="container text-center">
-            <div class="row justify-content-center align-items-center">
-                <div class="col-12">
-                    <span>&copy; <span id="current-year"></span> - Sistema de Gestão de Treinamentos</span>
-                    <span class="mx-2">|</span>
-                    <a href="https://github.com/eujeffoliveira" class="text-decoration-none">
-                        Desenvolvido por Jefferson Oliveira
-                    </a>
+            <!-- Footer -->
+            <footer class="footer mt-auto py-2 bg-light">
+                <div class="container text-center">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-12">
+                            <span>&copy; <span id="current-year"></span> - Sistema de Gestão de Treinamentos</span>
+                            <span class="mx-2">|</span>
+                            <a href="https://github.com/eujeffoliveira" class="text-decoration-none">
+                                Desenvolvido por Jefferson Oliveira
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </footer>
+            </footer>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
-    {% block extra_js %}{% endblock %}
+            <!-- Scripts -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
+            {% block extra_js %}{% endblock %}
 </body>
 
 </html>
