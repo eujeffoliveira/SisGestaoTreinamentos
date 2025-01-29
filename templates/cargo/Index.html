@@ -7,7 +7,7 @@
     <div class="page-header">
         <h1>{{ titulo }}</h1>
         <a href="{{ url_for(route + '.adicionar_cargo') }}" class="btn btn-primary">
-            <i class="bi bi-plus-lg"></i> Novo {{ singular }}
+            <i class="bi bi-plus-lg"></i> Incluir Novo {{ singular }}
         </a>
     </div>
 
@@ -23,30 +23,28 @@
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            {% for coluna in colunas %}
-                            <th class="sort" data-sort="{{ coluna.id }}">{{ coluna.nome }}</th>
-                            {% endfor %}
-                            <th>Ações</th>
+                            <th class="sort col-id" data-sort="id">ID</th>
+                            <th class="sort col-nome" data-sort="nome">Nome do Cargo</th>
+                            <th class="sort col-descricao" data-sort="descricao">Descrição</th>
+                            <th class="col-acoes">Ações</th>
                         </tr>
                     </thead>
                     <tbody class="list">
                         {% for item in items %}
                         <tr>
-                            {% for coluna in colunas %}
-                            <td class="{{ coluna.id }}">{{ item[coluna.id] }}</td>
-                            {% endfor %}
+                            <td class="id">{{ item.id }}</td>
+                            <td class="nome">{{ item.nome }}</td>
+                            <td class="descricao">{{ item.descricao }}</td>
                             <td>
                                 <div class="action-buttons">
-                                    <button class="btn btn-sm btn-outline-primary" 
-                                            onclick="editarRegistro('{{ route }}', {{ item.id }})"
-                                            data-bs-toggle="tooltip" 
-                                            title="Editar">
+                                    <button class="btn btn-sm btn-outline-primary"
+                                        onclick="editarRegistro('{{ route }}', {{ item.id }})" data-bs-toggle="tooltip"
+                                        title="Editar">
                                         <i class="bi bi-pencil"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger" 
-                                            onclick="excluirRegistro('{{ route }}', {{ item.id }}, 'Tem certeza que deseja excluir este {{ singular }}?')"
-                                            data-bs-toggle="tooltip" 
-                                            title="Excluir">
+                                    <button class="btn btn-sm btn-outline-danger"
+                                        onclick="excluirRegistro('{{ route }}', {{ item.id }}, 'Tem certeza que deseja excluir este {{ singular }}?')"
+                                        data-bs-toggle="tooltip" title="Excluir">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
@@ -55,6 +53,11 @@
                         {% endfor %}
                     </tbody>
                 </table>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <ul class="pagination justify-content-center"></ul>
+                </div>
             </div>
         </div>
     </div>
