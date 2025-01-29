@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from app.extensions import db
 from app.config import Config
 
 def create_app():
@@ -8,6 +9,9 @@ def create_app():
     
     # Configurações da aplicação (como banco de dados, chave secreta, etc.)
     app.config.from_object(Config)
+    
+    # Inicializa o SQLAlchemy com a aplicação
+    db.init_app(app)
     
     # Rota para a página inicial
     @app.route('/')

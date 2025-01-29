@@ -72,3 +72,74 @@ document.addEventListener('DOMContentLoaded', function() {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
 });
+
+/**
+ * Inicialização do List.js para tabelas dinâmicas
+ * @param {string} containerId - ID do container da tabela
+ * @param {Array} valueNames - Nomes das colunas para ordenação
+ */
+function initializeDataTable(containerId, valueNames) {
+    if (document.getElementById(containerId)) {
+        var options = {
+            valueNames: valueNames,
+            searchColumns: valueNames
+        };
+        return new List(containerId, options);
+    }
+    return null;
+}
+
+/**
+ * Função genérica para editar um registro
+ * @param {string} route - Rota base para edição
+ * @param {number} id - ID do registro
+ */
+function editarRegistro(route, id) {
+    window.location.href = `/${route}/editar/${id}`;
+}
+
+/**
+ * Função genérica para excluir um registro
+ * @param {string} route - Rota base para exclusão
+ * @param {number} id - ID do registro
+ * @param {string} mensagem - Mensagem de confirmação
+ */
+function excluirRegistro(route, id, mensagem = 'Tem certeza que deseja excluir este registro?') {
+    if (confirm(mensagem)) {
+        fetch(`/${route}/excluir/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                alert('Erro ao excluir o registro');
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao excluir o registro');
+        });
+    }
+}
+
+// Inicialização das tabelas específicas
+document.addEventListener('DOMContentLoaded', function() {
+    // Tabela de Cargos
+    if (document.getElementById('cargos')) {
+        initializeDataTable('cargos', ['id', 'nome', 'descricao']);
+    }
+    
+    // Tabela de Colaboradores
+    if (document.getElementById('colaboradores')) {
+        initializeDataTable('colaboradores', ['id', 'nome', 'cargo', 'departamento']);
+    }
+    
+    // Tabela de Treinamentos
+    if (document.getElementById('treinamentos')) {
+        initializeDataTable('treinamentos', ['id', 'titulo', 'descricao', 'data']);
+    }
+});
