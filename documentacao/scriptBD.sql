@@ -98,7 +98,7 @@ CREATE TABLE [dbo].[TBUSUARIO] (
     [ID_USUARIO]   INT           IDENTITY (1, 1) NOT NULL,
     [NOME_USUARIO] NVARCHAR (50) NOT NULL,
     [LOGIN]        NVARCHAR (50) NOT NULL,
-    [SENHA]        NVARCHAR (50) NOT NULL,
+    [SENHA]        NVARCHAR (100) NOT NULL,
     [EMAIL]        NVARCHAR (50) UNIQUE NOT NULL,
     [ID_ROLE]      INT           NOT NULL,
     [ATIVO]          BIT           NOT NULL,

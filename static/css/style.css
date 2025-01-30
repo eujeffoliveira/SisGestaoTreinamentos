@@ -146,6 +146,8 @@ body {
 /* =========================================
    Estilos da Sidebar e Navegação
    ========================================= */
+
+/* Configurações básicas da sidebar */
 #sidebar {
     transition: width 0.3s ease;
     /* Animação suave ao expandir/colapsar */
@@ -155,13 +157,19 @@ body {
     /* Altura total da viewport */
     position: fixed;
     /* Mantém a sidebar fixa durante a rolagem */
+    background-color: #212529;
+    /* Cor de fundo escura */
+    z-index: 1000;
+    /* Garante que a sidebar fique sobre outros elementos */
 }
 
+/* Estado colapsado da sidebar */
 #sidebar.collapsed {
     width: 4.5rem;
     /* Largura reduzida quando colapsada */
 }
 
+/* Oculta elementos de texto quando a sidebar está colapsada */
 #sidebar.collapsed .d-sm-inline {
     display: none !important;
     /* Oculta textos quando colapsada */
@@ -173,21 +181,14 @@ body {
     /* Animação suave do margin */
     margin-left: 250px;
     /* Margem inicial igual à largura da sidebar */
+    min-height: 100vh;
+    /* Altura mínima igual à viewport */
 }
 
+/* Estado expandido do conteúdo */
 #content.expanded {
     margin-left: 4.5rem;
     /* Margem reduzida quando sidebar está colapsada */
-}
-
-/* Estilo para o logo da sidebar */
-.sidebar-logo {
-    max-width: 30px;
-    /* Largura máxima reduzida */
-    height: auto;
-    /* Mantém a proporção */
-    margin: 5px 0;
-    /* Adiciona um pequeno espaçamento vertical */
 }
 
 /* Estilos dos links de navegação */
@@ -198,13 +199,40 @@ body {
     /* Transição suave para hover */
     padding: 0.5rem 1rem;
     /* Espaçamento interno dos links */
+    display: flex;
+    /* Usa flexbox para alinhamento */
+    align-items: center;
+    /* Centraliza verticalmente */
 }
 
+/* Efeito hover nos links */
 .nav-link:hover {
-    color: #0d6efd;
-    /* Cor ao passar o mouse */
+    color: #fff;
+    /* Mantém a cor do texto */
     background-color: rgba(255, 255, 255, 0.1);
     /* Fundo sutil ao hover */
+    border-radius: 4px;
+    /* Cantos arredondados */
+}
+
+/* Separador no menu */
+.menu-separator {
+    height: 1px;
+    /* Altura da linha */
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Cor da linha */
+    margin: 0.5rem 0;
+    /* Espaçamento vertical */
+    width: 100%;
+    /* Largura total */
+}
+
+/* Ajuste do separador quando a sidebar está colapsada */
+#sidebar.collapsed .menu-separator {
+    margin: 0.5rem auto;
+    /* Centraliza quando colapsado */
+    width: 80%;
+    /* Largura reduzida quando colapsado */
 }
 
 /* Estilos para a área do usuário na sidebar */
@@ -213,8 +241,23 @@ body {
     /* Espaçamento interno */
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     /* Linha separadora sutil */
+    margin-bottom: 1rem;
+    /* Espaço abaixo */
 }
 
+/* Estilo do ícone do usuário */
+.user-info i {
+    color: #ffffff;
+    /* Cor branca para o ícone */
+}
+
+/* Estilo do texto principal do usuário */
+.user-info .fs-6 {
+    color: #ffffff;
+    /* Cor branca para o nome do usuário */
+}
+
+/* Estilo do texto secundário na área do usuário */
 .user-info .text-muted {
     font-size: 0.8rem;
     /* Tamanho menor para o texto do perfil */
@@ -222,16 +265,74 @@ body {
     /* Mais suave */
 }
 
-/* Ajuste para quando a sidebar está colapsada */
+/* Ajustes para sidebar colapsada */
+#sidebar.collapsed .user-info {
+    padding: 0.5rem;
+    /* Reduz o padding quando colapsado */
+    text-align: center;
+    /* Centraliza o conteúdo */
+}
+
+/* Oculta textos na área do usuário quando colapsada */
 #sidebar.collapsed .user-info span,
 #sidebar.collapsed .user-info small {
     display: none;
+    /* Remove os textos */
 }
 
+/* Centraliza o ícone do usuário quando colapsado */
 #sidebar.collapsed .user-info i {
     margin: 0 auto;
+    /* Centraliza horizontalmente */
+    font-size: 1.5rem;
+    /* Aumenta um pouco o tamanho do ícone */
 }
 
+/* Estilos do rodapé da sidebar */
+.sidebar-footer {
+    padding: 1rem;
+    /* Espaçamento interno */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    /* Linha separadora superior */
+    margin-top: auto;
+    /* Empurra para o final da sidebar */
+}
+
+/* Ajustes do rodapé quando colapsado */
+#sidebar.collapsed .sidebar-footer {
+    padding: 0.5rem;
+    /* Reduz o padding */
+}
+
+/* Ajustes do botão de sair quando colapsado */
+#sidebar.collapsed .sidebar-footer .btn {
+    padding: 0.25rem;
+    /* Reduz o padding do botão */
+    width: 2.5rem;
+    /* Largura fixa */
+    height: 2.5rem;
+    /* Altura fixa */
+    display: flex;
+    /* Usa flexbox */
+    justify-content: center;
+    /* Centraliza horizontalmente */
+    align-items: center;
+    /* Centraliza verticalmente */
+}
+
+/* Oculta o texto do botão de sair quando colapsado */
+#sidebar.collapsed .sidebar-footer .btn span {
+    display: none;
+    /* Remove o texto */
+}
+
+/* Ajusta o ícone do botão de sair quando colapsado */
+#sidebar.collapsed .sidebar-footer .btn i {
+    margin: 0;
+    /* Remove margens */
+    font-size: 1.2rem;
+    /* Ajusta o tamanho do ícone */
+}
 
 /* =========================================
    Estilos Genéricos para Tabelas Dinâmicas

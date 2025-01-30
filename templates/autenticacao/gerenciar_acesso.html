@@ -1,0 +1,154 @@
+{% extends "_Layout.html" %}
+
+{% block title %}Gerenciar Acessos - Sistema de Gestão de Treinamentos{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="page-header">
+        <h1>Gerenciamento de Acessos</h1>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novoUsuarioModal">
+            <i class="bi bi-plus-lg"></i> Novo Usuário
+        </button>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="row">
+        <!-- Lista de Usuários -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Usuários</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Login</th>
+                                    <th>Email</th>
+                                    <th>Perfil</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for usuario in usuarios %}
+                                <tr>
+                                    <td>{{ usuario.NOME_USUARIO }}</td>
+                                    <td>{{ usuario.LOGIN }}</td>
+                                    <td>{{ usuario.EMAIL }}</td>
+                                    <td>{{ usuario.role.NOME_ROLE }}</td>
+                                    <td>
+                                        <span
+                                            class="badge {% if usuario.ATIVO %}bg-success{% else %}bg-danger{% endif %}">
+                                            {{ 'Ativo' if usuario.ATIVO else 'Inativo' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-outline-primary"
+                                                onclick="editarUsuario({{ usuario.ID_USUARIO }})" title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger"
+                                                onclick="toggleUsuario({{ usuario.ID_USUARIO }}, {{ usuario.ATIVO|tojson }})"
+                                                title="{{ 'Desativar' if usuario.ATIVO else 'Ativar' }}">
+                                                <i class="bi bi-power"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Perfis -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Perfis</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        {% for role in roles %}
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-1">{{ role.NOME_ROLE }}</h6>
+                                    <small class="text-muted">{{ role.DESCRICAO }}</small>
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary"
+                                    onclick="editarPerfil({{ role.ID_ROLE }})" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Novo Usuário -->
+<div class="modal fade" id="novoUsuarioModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Novo Usuário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('auth.register') }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nome" class="form-label">Nome</label>
+                        <input type="text" class="form-control" id="nome" name="nome" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="login" class="form-label">Login</label>
+                        <input type="text" class="form-control" id="login" name="login" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="senha" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="senha" name="senha" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_role" class="form-label">Perfil</label>
+                        <select class="form-select" id="id_role" name="id_role" required>
+                            <option value="">Selecione...</option>
+                            {% for role in roles %}
+                            <option value="{{ role.ID_ROLE }}">{{ role.NOME_ROLE }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
