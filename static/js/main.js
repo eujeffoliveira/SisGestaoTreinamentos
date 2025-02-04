@@ -1,6 +1,60 @@
+/***************************************************************
+ *                     UTILIDADES GLOBAIS
+ ***************************************************************/
+
 /**
- * Função para atualizar o ano atual no footer
- * Esta função é executada quando o DOM é completamente carregado
+ * Cache para armazenar dados temporários, como os retornos de perfis
+ */
+const dataCache = new Map();
+
+/**
+ * Mensagens padrão para feedback visual e erros
+ */
+const MENSAGENS = {
+    ERRO_CARREGAR: 'Não foi possível carregar os dados. Tente novamente.',
+    ERRO_ATUALIZAR: 'Erro ao atualizar. Tente novamente.',
+    SUCESSO_ATUALIZAR: 'Atualizado com sucesso!',
+    CONFIRMA_TOGGLE: 'Tem certeza que deseja {acao} este usuário?'
+};
+
+/**
+ * Exibe uma mensagem de erro ao usuário (atualmente com alert, mas pode ser substituído por um sistema de notificações)
+ * @param {string} message - Mensagem de erro
+ */
+function showErrorMessage(message) {
+    console.error('Erro:', message);
+    alert(message); // Futuramente, substitua por um sistema de notificações
+}
+
+/**
+ * Exibe uma mensagem de sucesso ao usuário (atualmente com alert, mas pode ser substituído por um sistema de notificações)
+ * @param {string} message - Mensagem de sucesso
+ */
+function showSuccessMessage(message) {
+    console.log('Sucesso:', message);
+    alert(message); // Futuramente, substitua por um sistema de notificações
+}
+
+/**
+ * Abre um modal do Bootstrap, dado o ID do elemento modal
+ * @param {string} modalId - ID do elemento modal
+ */
+function abrirModal(modalId) {
+    const modalElement = document.getElementById(modalId);
+    if (!modalElement) {
+        throw new Error(`Modal não encontrado: ${modalId}`);
+    }
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+}
+
+/***************************************************************
+ *                           FOOTER
+ ***************************************************************/
+
+/**
+ * Atualiza o ano atual no footer.
+ * Executado quando o DOM estiver completamente carregado.
  */
 document.addEventListener('DOMContentLoaded', function () {
     const yearElement = document.getElementById('current-year');
@@ -9,10 +63,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+/***************************************************************
+ *                          SIDEBAR
+ ***************************************************************/
+
 /**
- * Funcionalidade para controlar o toggle da sidebar
- * Adiciona ou remove classes para expandir/colapsar a sidebar
- * Implementa acessibilidade com suporte a navegação por teclado
+ * Controla o comportamento do toggle da sidebar, incluindo suporte para navegação por teclado e
+ * armazenamento do estado (colapsada ou expandida) no localStorage para manter a preferência do usuário.
  */
 document.addEventListener('DOMContentLoaded', function () {
     const sidebarToggle = document.getElementById('sidebarToggle');
@@ -20,26 +77,32 @@ document.addEventListener('DOMContentLoaded', function () {
     const content = document.getElementById('content');
 
     if (sidebarToggle && sidebar && content) {
+        /**
+         * Alterna o estado da sidebar entre colapsada e expandida.
+         */
         function toggleSidebar() {
             sidebar.classList.toggle('collapsed');
             content.classList.toggle('expanded');
             const isCollapsed = sidebar.classList.contains('collapsed');
+
+            // Armazena o estado atual da sidebar
             localStorage.setItem('sidebarCollapsed', isCollapsed);
 
-            // Atualiza o aria-expanded para acessibilidade
+            // Atualiza o atributo aria-expanded para melhorar a acessibilidade
             sidebarToggle.setAttribute('aria-expanded', !isCollapsed);
         }
 
+        // Evento de clique para alternar a sidebar
         sidebarToggle.addEventListener('click', toggleSidebar);
 
-        // Adiciona suporte para tecla Enter
+        // Suporte para a tecla Enter (acessibilidade)
         sidebarToggle.addEventListener('keydown', function (e) {
             if (e.key === 'Enter') {
                 toggleSidebar();
             }
         });
 
-        // Recupera o estado da sidebar do localStorage ao carregar a página
+        // Recupera o estado salvo da sidebar e o aplica ao carregar a página
         const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
         if (sidebarCollapsed) {
             sidebar.classList.add('collapsed');
@@ -49,9 +112,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+/***************************************************************
+ *             PREVENÇÃO DE ENVIO DUPLICADO DE FORMULÁRIOS
+ ***************************************************************/
+
 /**
- * Função para prevenir envios duplicados de formulários
- * Desabilita o botão de submit após o primeiro clique e fornece feedback visual
+ * Impede que formulários sejam submetidos múltiplas vezes.
+ * Ao enviar, desabilita o botão de submit e exibe um feedback textual.
+ * Caso o envio demore (possível falha), o botão é reabilitado após 5 segundos.
  */
 document.addEventListener('DOMContentLoaded', function () {
     const forms = document.querySelectorAll('form');
@@ -66,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const originalText = button.textContent;
                     button.textContent = 'Enviando...';
 
-                    // Restaura o botão após 5 segundos caso o envio falhe
+                    // Restaura o botão após 5 segundos, caso o envio falhe
                     setTimeout(() => {
                         button.disabled = false;
                         button.textContent = originalText;
@@ -79,9 +147,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+/***************************************************************
+ *                INICIALIZAÇÃO DOS TOOLTIP DO BOOTSTRAP
+ ***************************************************************/
+
 /**
- * Inicialização de tooltips do Bootstrap
- * Ativa tooltips em elementos com o atributo data-bs-toggle="tooltip"
+ * Inicializa os tooltips do Bootstrap para todos os elementos que possuírem o atributo data-bs-toggle="tooltip".
  */
 document.addEventListener('DOMContentLoaded', function () {
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -90,265 +161,398 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+/***************************************************************
+ *                     TABELAS DINÂMICAS (List.js)
+ ***************************************************************/
+
 /**
- * Inicialização do List.js para tabelas dinâmicas com cache de dados
- * @param {string} containerId - ID do container da tabela
- * @param {Array} valueNames - Nomes das colunas para ordenação
+ * Cache para armazenar instâncias das tabelas inicializadas
  */
 const tableCache = new Map();
 
+/**
+ * Inicializa uma tabela dinâmica utilizando o List.js.
+ * Se a tabela já foi inicializada (cache), retorna a instância armazenada.
+ * @param {string} containerId - ID do container da tabela
+ * @param {Array} valueNames - Array com os nomes das colunas (para ordenação e pesquisa)
+ * @returns {List|null} - Instância da tabela ou null se o container não existir
+ */
 function initializeDataTable(containerId, valueNames) {
-    if (document.getElementById(containerId)) {
-        if (tableCache.has(containerId)) {
-            return tableCache.get(containerId);
-        }
+    const container = document.getElementById(containerId);
+    if (!container) return null;
 
-        const options = {
-            valueNames: valueNames,
-            searchColumns: valueNames,
-            page: 15,
-            pagination: {
-                paginationClass: 'pagination',
-                outerWindow: 1,
-                innerWindow: 2,
-            }
-        };
-        const table = new List(containerId, options);
-        tableCache.set(containerId, table);
-        return table;
+    if (tableCache.has(containerId)) {
+        return tableCache.get(containerId);
     }
-    return null;
+
+    const options = {
+        valueNames: valueNames,
+        searchColumns: valueNames,
+        page: 15,
+        pagination: {
+            paginationClass: 'pagination',
+            outerWindow: 1,
+            innerWindow: 2,
+        }
+    };
+
+    const table = new List(containerId, options);
+    tableCache.set(containerId, table);
+    return table;
 }
 
 /**
- * Função genérica para editar um registro com tratamento de erros aprimorado
- * @param {string} route - Rota base para edição
- * @param {number} id - ID do registro
+ * Inicializa as tabelas dinâmicas disponíveis na aplicação.
+ * Cada objeto no array "tables" representa a configuração de uma tabela.
  */
-async function editarRegistro(route, id) {
-    try {
-        const response = await fetch(`/${route}/editar/${id}`);
-        if (!response.ok) {
-            throw new Error('Falha ao carregar dados para edição');
-        }
-        const data = await response.json();
-        // Implemente aqui a lógica para preencher o formulário de edição com os dados
-    } catch (error) {
-        console.error('Erro ao editar registro:', error);
-        alert('Não foi possível carregar os dados para edição. Por favor, tente novamente.');
-    }
-}
-
-/**
- * Função genérica para excluir um registro com feedback visual e tratamento de erros
- * @param {string} route - Rota base para exclusão
- * @param {number} id - ID do registro
- * @param {string} mensagem - Mensagem de confirmação
- */
-async function excluirRegistro(route, id, mensagem = 'Tem certeza que deseja excluir este registro?') {
-    if (confirm(mensagem)) {
-        try {
-            const response = await fetch(`/${route}/excluir/${id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Falha ao excluir o registro');
-            }
-
-            // Feedback visual de sucesso
-            alert('Registro excluído com sucesso!');
-            window.location.reload();
-        } catch (error) {
-            console.error('Erro ao excluir registro:', error);
-            alert('Erro ao excluir o registro. Por favor, tente novamente.');
-        }
-    }
-}
-
-// Inicialização das tabelas específicas
 document.addEventListener('DOMContentLoaded', function () {
     const tables = [
-        { id: 'cargos', columns: ['id', 'nome', 'descricao'] },
-        { id: 'colaboradores', columns: ['id', 'nome', 'cargo', 'departamento'] },
-        { id: 'treinamentos', columns: ['id', 'titulo', 'descricao', 'data'] }
+        {
+            id: 'cargos',
+            columns: ['id', 'nome', 'descricao'],
+            options: { page: 10 }
+        },
+        {
+            id: 'colaboradores',
+            columns: ['id', 'nome', 'cargo', 'departamento'],
+            options: { page: 15 }
+        },
+        {
+            id: 'treinamentos',
+            columns: ['id', 'titulo', 'descricao', 'data'],
+            options: { page: 10 }
+        }
     ];
 
     tables.forEach(table => {
-        if (document.getElementById(table.id)) {
-            initializeDataTable(table.id, table.columns);
+        const container = document.getElementById(table.id);
+        if (container) {
+            const tableInstance = initializeDataTable(
+                table.id,
+                table.columns,
+                table.options
+            );
+            console.log(`Tabela ${table.id} inicializada:`, tableInstance ? 'Sucesso' : 'Falha');
         }
     });
 });
 
-/**
- * Funções para gerenciamento de usuários e perfis
- */
+/***************************************************************
+ *           FUNÇÕES DE MANIPULAÇÃO DE REGISTROS (CRUD)
+ ***************************************************************/
 
 /**
- * Cache para armazenar dados de usuários e perfis
+ * Função genérica para editar um registro com tratamento de erros aprimorado.
+ * Realiza uma requisição para obter os dados do registro e, de acordo com a rota,
+ * chama a função responsável por preencher o formulário correspondente.
+ * @param {string} route - Rota base para edição (ex: 'usuarios', 'cargos', 'colaboradores', 'treinamentos')
+ * @param {number} id - ID do registro a ser editado
  */
-const dataCache = new Map();
-
-/**
- * Edita um usuário existente
- * @param {number} id - ID do usuário a ser editado
- */
-async function editarUsuario(id) {
+async function editarRegistro(route, id) {
     try {
-        // Verifica se os dados do usuário estão em cache
-        if (!dataCache.has(`usuario_${id}`)) {
-            const response = await fetch(`/auth/usuario/${id}`);
-            if (!response.ok) {
-                throw new Error('Falha ao carregar dados do usuário');
-            }
-            const data = await response.json();
-            dataCache.set(`usuario_${id}`, data);
+        // Realiza a requisição para buscar os dados do registro
+        const response = await fetch(`/${route}/editar/${id}`);
+
+        if (!response.ok) {
+            console.error('Status:', response.status);
+            throw new Error(`Erro HTTP: ${response.status}`);
         }
 
-        const data = dataCache.get(`usuario_${id}`);
+        const data = await response.json();
+        console.log('Dados recebidos:', data);
 
-        // Preenche o modal com os dados do usuário
-        document.getElementById('edit_nome').value = data.NOME_USUARIO;
-        document.getElementById('edit_login').value = data.LOGIN;
-        document.getElementById('edit_email').value = data.EMAIL;
-        document.getElementById('edit_id_role').value = data.ID_ROLE;
-        document.getElementById('edit_usuario_id').value = data.ID_USUARIO;
+        // Chama a função específica de preenchimento de formulário com base na rota
+        switch (route) {
+            case 'cargos':
+                preencherFormularioCargo(data);
+                break;
+            case 'colaboradores':
+                preencherFormularioColaborador(data);
+                break;
+            case 'treinamentos':
+                preencherFormularioTreinamento(data);
+                break;
+            default:
+                throw new Error('Tipo de registro não suportado');
+        }
 
-        // Abre o modal de edição
-        new bootstrap.Modal(document.getElementById('editUsuarioModal')).show();
-
-        // Adiciona listeners para acessibilidade
-        setupModalAccessibility('editUsuarioModal');
     } catch (error) {
-        console.error('Erro ao editar usuário:', error);
-        showErrorMessage('Erro ao carregar dados do usuário. Por favor, tente novamente.');
+        console.error('Erro ao editar registro:', error);
+        showErrorMessage('Não foi possível carregar os dados para edição. Por favor, tente novamente.');
     }
 }
 
 /**
- * Ativa ou desativa um usuário
- * @param {number} id - ID do usuário
- * @param {boolean} ativo - Estado atual do usuário
+ * Exclui um registro específico após confirmação do usuário.
+ * @param {string} route - Rota base para exclusão
+ * @param {number} id - ID do registro a ser excluído
+ * @param {string} mensagem - Mensagem de confirmação personalizada (padrão se não informado)
  */
-async function toggleUsuario(id, ativo) {
+async function excluirRegistro(route, id, mensagem = 'Tem certeza que deseja excluir este registro?') {
+    if (!confirm(mensagem)) return; // Se o usuário cancelar, não prossegue
+
+    try {
+        const response = await fetch(`/${route}/excluir/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Falha ao excluir o registro');
+        }
+
+        showSuccessMessage('Registro excluído com sucesso!');
+        setTimeout(() => window.location.reload(), 1000);
+
+    } catch (error) {
+        console.error('Erro ao excluir registro:', error);
+        showErrorMessage(`Erro ao excluir o registro: ${error.message}`);
+    }
+}
+
+/***************************************************************
+ *           FUNÇÕES DE MANIPULAÇÃO DE USUÁRIOS
+ ***************************************************************/
+
+/**
+ * Inicia o processo de edição de um usuário.
+ * Busca os dados do usuário via fetch, preenche o formulário e abre o modal de edição.
+ * @param {number} id - ID do usuário a ser editado
+ */
+function editarUsuario(id) {
+    console.log('Iniciando edição do usuário:', id);
+
+    fetch(`/auth/usuario/${id}`)
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Dados recebidos:', data);
+            preencherFormularioUsuario(data);
+            abrirModal('editUsuarioModal');
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            showErrorMessage(MENSAGENS.ERRO_CARREGAR);
+        });
+}
+
+/**
+ * Preenche o formulário de edição de usuário com os dados obtidos.
+ * @param {Object} data - Objeto com os dados do usuário
+ */
+function preencherFormularioUsuario(data) {
+    const campos = {
+        'edit_nome': data.NOME_USUARIO,
+        'edit_login': data.LOGIN,
+        'edit_email': data.EMAIL,
+        'edit_id_role': data.ID_ROLE,
+        'edit_usuario_id': data.ID_USUARIO
+    };
+
+    Object.entries(campos).forEach(([id, valor]) => {
+        const elemento = document.getElementById(id);
+        if (elemento) {
+            elemento.value = valor;
+        } else {
+            console.warn(`Campo não encontrado: ${id}`);
+        }
+    });
+}
+
+/**
+ * Alterna o status (ativo/inativo) de um usuário.
+ * Solicita confirmação do usuário e envia a alteração via fetch.
+ * @param {number} id - ID do usuário
+ * @param {boolean} ativo - Status atual do usuário
+ */
+function toggleUsuario(id, ativo) {
     const novoStatus = !ativo;
     const mensagem = novoStatus ? 'ativar' : 'desativar';
 
-    if (confirm(`Tem certeza que deseja ${mensagem} este usuário?`)) {
-        try {
-            const response = await fetch(`/auth/usuario/${id}/toggle`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ ativo: novoStatus })
+    if (confirm(MENSAGENS.CONFIRMA_TOGGLE.replace('{acao}', mensagem))) {
+        fetch(`/auth/usuario/${id}/toggle`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ativo: novoStatus })
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Erro na requisição');
+                showSuccessMessage(`Usuário ${mensagem}do com sucesso!`);
+                setTimeout(() => window.location.reload(), 1500);
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                showErrorMessage(MENSAGENS.ERRO_ATUALIZAR);
             });
-
-            if (!response.ok) {
-                throw new Error('Erro ao atualizar usuário');
-            }
-
-            // Atualiza o cache
-            if (dataCache.has(`usuario_${id}`)) {
-                const userData = dataCache.get(`usuario_${id}`);
-                userData.ATIVO = novoStatus;
-                dataCache.set(`usuario_${id}`, userData);
-            }
-
-            showSuccessMessage(`Usuário ${mensagem}do com sucesso!`);
-            setTimeout(() => window.location.reload(), 1500);
-        } catch (error) {
-            console.error('Erro ao atualizar status do usuário:', error);
-            showErrorMessage('Erro ao atualizar status do usuário. Por favor, tente novamente.');
-        }
     }
 }
 
 /**
- * Edita um perfil existente
- * @param {number} id - ID do perfil a ser editado
+ * Atualiza os dados de um usuário após a edição.
+ * Envia os dados atualizados para o servidor via método PUT.
+ * @param {number} userId - ID do usuário
+ * @param {Object} dados - Dados atualizados do usuário
  */
-async function editarPerfil(id) {
+function atualizarUsuario(userId, dados) {
+    fetch(`/auth/usuario/${userId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Falha ao atualizar usuário');
+            showSuccessMessage(MENSAGENS.SUCESSO_ATUALIZAR);
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            showErrorMessage(MENSAGENS.ERRO_ATUALIZAR);
+        });
+}
+
+/**
+ * Função para excluir um usuário.
+ * Exibe uma confirmação para o usuário e, se confirmado, envia uma requisição para a API.
+ * Após a exclusão bem-sucedida, recarrega a página para atualizar a lista.
+ *
+ * @param {number} id - ID do usuário a ser excluído.
+ */
+async function excluirUsuario(id) {
+    // Mensagem de confirmação para o usuário
+    if (!confirm("Tem certeza que deseja excluir este usuário?")) {
+        return;
+    }
+
     try {
-        // Verifica se os dados do perfil estão em cache
-        if (!dataCache.has(`perfil_${id}`)) {
-            const response = await fetch(`/auth/perfil/${id}`);
-            if (!response.ok) {
-                throw new Error('Falha ao carregar dados do perfil');
+        // Envia a requisição para excluir o usuário.
+        // Ajuste a URL conforme sua rota de exclusão.
+        const response = await fetch(`/auth/usuario/${id}/excluir`, {
+            method: 'POST', // ou 'DELETE', conforme sua implementação no backend
+            headers: {
+                'Content-Type': 'application/json'
             }
-            const data = await response.json();
-            dataCache.set(`perfil_${id}`, data);
+        });
+
+        // Verifica se a resposta foi bem-sucedida
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || "Erro ao excluir usuário");
         }
 
-        const data = dataCache.get(`perfil_${id}`);
-
-        // Preenche o modal com os dados do perfil
-        document.getElementById('edit_nome_role').value = data.NOME_ROLE;
-        document.getElementById('edit_descricao_role').value = data.DESCRICAO;
-        document.getElementById('edit_role_id').value = data.ID_ROLE;
-
-        // Abre o modal de edição
-        new bootstrap.Modal(document.getElementById('editPerfilModal')).show();
-
-        // Adiciona listeners para acessibilidade
-        setupModalAccessibility('editPerfilModal');
+        // Exibe uma mensagem de sucesso e recarrega a página
+        alert("Usuário excluído com sucesso!");
+        window.location.reload();
     } catch (error) {
-        console.error('Erro ao editar perfil:', error);
-        showErrorMessage('Erro ao carregar dados do perfil. Por favor, tente novamente.');
+        // Em caso de erro, exibe uma mensagem para o usuário
+        alert("Erro: " + error.message);
     }
 }
 
+
+/***************************************************************
+ *           FUNÇÕES DE MANIPULAÇÃO DE PERFIS
+ ***************************************************************/
+
 /**
- * Configura a acessibilidade para modais
- * @param {string} modalId - ID do modal
+ * Inicia o processo de edição de um perfil.
+ * Busca os dados do perfil, armazena no cache e preenche o formulário de edição.
+ * @param {number} id - ID do perfil
  */
-function setupModalAccessibility(modalId) {
-    const modal = document.getElementById(modalId);
-    const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-    const firstElement = focusableElements[0];
-    const lastElement = focusableElements[focusableElements.length - 1];
-
-    firstElement.focus();
-
-    modal.addEventListener('keydown', function (e) {
-        if (e.key === 'Tab') {
-            if (e.shiftKey && document.activeElement === firstElement) {
-                e.preventDefault();
-                lastElement.focus();
-            } else if (!e.shiftKey && document.activeElement === lastElement) {
-                e.preventDefault();
-                firstElement.focus();
-            }
-        }
-    });
+function editarPerfil(id) {
+    fetch(`/auth/perfil/${id}`)
+        .then(response => {
+            if (!response.ok) throw new Error('Falha ao carregar dados do perfil');
+            return response.json();
+        })
+        .then(data => {
+            dataCache.set(`perfil_${id}`, data);
+            preencherFormularioPerfil(data);
+            abrirModal('editPerfilModal');
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            showErrorMessage(MENSAGENS.ERRO_CARREGAR);
+        });
 }
 
 /**
- * Exibe uma mensagem de erro
- * @param {string} message - Mensagem de erro
+ * Preenche o formulário de edição de perfil com os dados obtidos.
+ * @param {Object} data - Dados do perfil
  */
-function showErrorMessage(message) {
-    // Implementar lógica para exibir mensagem de erro (ex: toast ou alert)
-    alert(message);
+function preencherFormularioPerfil(data) {
+    const editNomeRole = document.getElementById('edit_nome_role');
+    const editDescricaoRole = document.getElementById('edit_descricao_role');
+    const editRoleId = document.getElementById('edit_role_id');
+
+    if (editNomeRole) editNomeRole.value = data.NOME_ROLE;
+    if (editDescricaoRole) editDescricaoRole.value = data.DESCRICAO;
+    if (editRoleId) editRoleId.value = data.ID_ROLE;
 }
 
 /**
- * Exibe uma mensagem de sucesso
- * @param {string} message - Mensagem de sucesso
+ * Trata o envio do formulário para criação de um novo perfil.
+ * Envia os dados via método POST e atualiza a página após sucesso.
+ * @param {Event} e - Evento de submit do formulário
  */
-function showSuccessMessage(message) {
-    // Implementar lógica para exibir mensagem de sucesso (ex: toast ou alert)
-    alert(message);
+function handleNovoPerfilSubmit(e) {
+    e.preventDefault();
+    const dados = {
+        nome: document.getElementById('nome_role').value,
+        descricao: document.getElementById('descricao_role').value
+    };
+
+    fetch('/auth/perfil', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+    })
+        .then(response => response.json())
+        .then(data => {
+            showSuccessMessage('Perfil criado com sucesso!');
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            showErrorMessage('Erro ao criar perfil');
+        });
 }
 
-// Inicialização dos tooltips do Bootstrap
+/***************************************************************
+ *              INICIALIZAÇÃO DE EVENT LISTENERS
+ ***************************************************************/
+
+/**
+ * Configura os event listeners para formulários de edição de usuário e criação de novo perfil.
+ * Executa as configurações quando o DOM estiver completamente carregado.
+ */
 document.addEventListener('DOMContentLoaded', function () {
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
-    });
+    // Event Listener para o formulário de edição de usuário
+    const editUsuarioForm = document.getElementById('editUsuarioForm');
+    if (editUsuarioForm) {
+        editUsuarioForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const userId = document.getElementById('edit_usuario_id').value;
+
+            const dados = {
+                nome: document.getElementById('edit_nome').value,
+                email: document.getElementById('edit_email').value,
+                id_role: document.getElementById('edit_id_role').value,
+                senha: document.getElementById('edit_senha').value
+            };
+
+            atualizarUsuario(userId, dados);
+        });
+    }
+
+    // Event Listener para o formulário de criação de um novo perfil
+    const novoPerfilForm = document.getElementById('novoPerfilForm');
+    if (novoPerfilForm) {
+        novoPerfilForm.addEventListener('submit', handleNovoPerfilSubmit);
+    }
 });

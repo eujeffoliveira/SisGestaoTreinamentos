@@ -1,9 +1,18 @@
+{# ====================================================
+Template Base e Configuração de Título
+==================================================== #}
 {% extends "_Layout.html" %}
 
+{# Define o título da página que será exibido na aba do navegador #}
 {% block title %}Gerenciar Acessos - Sistema de Gestão de Treinamentos{% endblock %}
 
+
+{# ====================================================
+Conteúdo Principal da Página de Gerenciamento de Acessos
+==================================================== #}
 {% block content %}
 <div class="container-fluid">
+    {# Cabeçalho da Página: Título e Botão para Criar Novo Usuário #}
     <div class="page-header">
         <h1>Gerenciamento de Acessos</h1>
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novoUsuarioModal">
@@ -11,6 +20,7 @@
         </button>
     </div>
 
+    {# Exibe mensagens flash (feedback para o usuário) se existirem #}
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     {% for category, message in messages %}
@@ -22,15 +32,22 @@
     {% endif %}
     {% endwith %}
 
+    {# ====================================================
+    Área Principal com Duas Colunas: Lista de Usuários e Lista de Perfis
+    ==================================================== #}
     <div class="row">
-        <!-- Lista de Usuários -->
+        {# ----------------------------------------------------
+        Coluna da Esquerda: Lista de Usuários
+        ---------------------------------------------------- #}
         <div class="col-md-8">
             <div class="card">
+                {# Cabeçalho do Card de Usuários #}
                 <div class="card-header">
                     <h5 class="card-title mb-0">Usuários</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
+                        {# Tabela com informações dos usuários #}
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
@@ -43,6 +60,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {# Itera sobre a lista de usuários para preencher as linhas da tabela #}
                                 {% for usuario in usuarios %}
                                 <tr>
                                     <td>{{ usuario.NOME_USUARIO }}</td>
@@ -50,21 +68,29 @@
                                     <td>{{ usuario.EMAIL }}</td>
                                     <td>{{ usuario.role.NOME_ROLE }}</td>
                                     <td>
+                                        {# Exibe uma badge verde para usuários ativos ou vermelha para inativos #}
                                         <span
                                             class="badge {% if usuario.ATIVO %}bg-success{% else %}bg-danger{% endif %}">
                                             {{ 'Ativo' if usuario.ATIVO else 'Inativo' }}
                                         </span>
                                     </td>
                                     <td>
+                                        <!-- Botão para editar o usuário -->
                                         <div class="btn-group">
                                             <button class="btn btn-sm btn-outline-primary"
                                                 onclick="editarUsuario({{ usuario.ID_USUARIO }})" title="Editar">
                                                 <i class="bi bi-pencil"></i>
                                             </button>
+                                            <!-- Botão para alternar status (ativar/desativar) -->
                                             <button class="btn btn-sm btn-outline-danger"
                                                 onclick="toggleUsuario({{ usuario.ID_USUARIO }}, {{ usuario.ATIVO|tojson }})"
                                                 title="{{ 'Desativar' if usuario.ATIVO else 'Ativar' }}">
                                                 <i class="bi bi-power"></i>
+                                            </button>
+                                            <!-- Botão para excluir o usuário -->
+                                            <button class="btn btn-sm btn-outline-danger"
+                                                onclick="excluirUsuario({{ usuario.ID_USUARIO }})" title="Excluir">
+                                                <i class="bi bi-trash"></i>
                                             </button>
                                         </div>
                                     </td>
@@ -77,14 +103,18 @@
             </div>
         </div>
 
-        <!-- Lista de Perfis -->
+        {# ----------------------------------------------------
+        Coluna da Direita: Lista de Perfis
+        ---------------------------------------------------- #}
         <div class="col-md-4">
             <div class="card">
+                {# Cabeçalho do Card de Perfis #}
                 <div class="card-header">
                     <h5 class="card-title mb-0">Perfis</h5>
                 </div>
                 <div class="card-body">
                     <div class="list-group">
+                        {# Itera sobre a lista de perfis para exibir cada um em um item da lista #}
                         {% for role in roles %}
                         <div class="list-group-item">
                             <div class="d-flex justify-content-between align-items-center">
@@ -106,42 +136,54 @@
     </div>
 </div>
 
-<!-- Modal Novo Usuário -->
+{# ====================================================
+Modal para Cadastro de Novo Usuário
+==================================================== #}
 <div class="modal fade" id="novoUsuarioModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
+            {# Cabeçalho do Modal #}
             <div class="modal-header">
                 <h5 class="modal-title">Novo Usuário</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
+            {# Formulário para cadastrar um novo usuário; utiliza método POST e envia os dados para a rota de registro
+            #}
             <form method="POST" action="{{ url_for('auth.register') }}">
                 <div class="modal-body">
+                    {# Campo para Nome #}
                     <div class="mb-3">
                         <label for="nome" class="form-label">Nome</label>
                         <input type="text" class="form-control" id="nome" name="nome" required>
                     </div>
+                    {# Campo para Login #}
                     <div class="mb-3">
                         <label for="login" class="form-label">Login</label>
                         <input type="text" class="form-control" id="login" name="login" required>
                     </div>
+                    {# Campo para Email #}
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control" id="email" name="email" required>
                     </div>
+                    {# Campo para Senha #}
                     <div class="mb-3">
                         <label for="senha" class="form-label">Senha</label>
                         <input type="password" class="form-control" id="senha" name="senha" required>
                     </div>
+                    {# Campo para Seleção do Perfil do Usuário #}
                     <div class="mb-3">
                         <label for="id_role" class="form-label">Perfil</label>
                         <select class="form-select" id="id_role" name="id_role" required>
                             <option value="">Selecione...</option>
+                            {# Itera sobre os perfis para preencher o select #}
                             {% for role in roles %}
                             <option value="{{ role.ID_ROLE }}">{{ role.NOME_ROLE }}</option>
                             {% endfor %}
                         </select>
                     </div>
                 </div>
+                {# Rodapé do Modal com os botões Cancelar e Salvar #}
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Salvar</button>
@@ -150,5 +192,4 @@
         </div>
     </div>
 </div>
-
 {% endblock %}

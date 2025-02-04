@@ -1,115 +1,131 @@
-/* static/css/style.css */
-
-/* =========================================
+/* ====================================================
    Estilos Globais
-   ========================================= */
+   ==================================================== */
+
+/* Define as configurações básicas para o corpo do documento */
 body {
     font-family: Arial, sans-serif;
-    /* Define a fonte padrão para todo o corpo do documento */
+    /* Fonte padrão para todo o site */
     line-height: 1.6;
-    /* Define o espaçamento entre linhas para melhor legibilidade */
+    /* Espaçamento entre linhas para melhor legibilidade */
     color: #333;
-    /* Define a cor do texto padrão */
+    /* Cor padrão do texto */
 }
 
-/* =========================================
+
+
+/* ====================================================
    Estilos para Páginas de Erro
-   ========================================= */
+   ==================================================== */
+
+/* Container principal da página de erro */
 .error-page {
     text-align: center;
-    /* Centraliza o conteúdo da página de erro */
+    /* Centraliza o conteúdo */
     padding: 50px;
-    /* Adiciona espaço interno ao redor do conteúdo */
+    /* Espaço interno ao redor do conteúdo */
     background-color: #f0f0f0;
-    /* Define um fundo cinza claro */
+    /* Fundo cinza claro para contraste */
 }
 
+/* Estilização do título da página de erro */
 .error-page h1 {
     color: #d9534f;
-    /* Define a cor do título para um tom de vermelho */
+    /* Título em tom de vermelho para chamar atenção */
     font-size: 2.5em;
-    /* Aumenta o tamanho da fonte do título */
+    /* Tamanho grande para destaque */
     margin-bottom: 20px;
-    /* Adiciona espaço abaixo do título */
+    /* Espaço abaixo do título */
 }
 
+/* Estilização dos parágrafos da página de erro */
 .error-page p {
     font-size: 1.1em;
-    /* Aumenta ligeiramente o tamanho da fonte dos parágrafos */
+    /* Tamanho um pouco maior para melhor leitura */
     margin-bottom: 15px;
-    /* Adiciona espaço abaixo dos parágrafos */
+    /* Espaçamento entre parágrafos */
 }
 
+/* Estilização dos links na página de erro */
 .error-page a {
     color: #0275d8;
-    /* Define a cor dos links para azul */
+    /* Links em azul */
     text-decoration: none;
-    /* Remove o sublinhado padrão dos links */
+    /* Remove o sublinhado padrão */
 }
 
+/* Efeito de hover para os links da página de erro */
 .error-page a:hover {
     text-decoration: underline;
-    /* Adiciona sublinhado aos links quando o mouse passa por cima */
+    /* Sublinha o link quando o mouse passa por cima */
 }
 
+/* Container de detalhes adicionais sobre o erro */
 .error-details {
     margin-top: 30px;
-    /* Adiciona espaço acima dos detalhes do erro */
+    /* Espaço acima dos detalhes */
     font-size: 0.9em;
-    /* Reduz ligeiramente o tamanho da fonte dos detalhes */
+    /* Fonte um pouco menor para diferenciação */
     color: #777;
-    /* Define uma cor de texto mais clara para os detalhes */
+    /* Cor de texto mais clara */
     border-top: 1px solid #ddd;
-    /* Adiciona uma linha separadora acima dos detalhes */
+    /* Linha separadora no topo */
     padding-top: 20px;
-    /* Adiciona espaço acima do conteúdo dos detalhes */
+    /* Espaço interno acima dos detalhes */
 }
 
+/* Parágrafos dentro dos detalhes de erro */
 .error-details p {
     margin: 5px 0;
-    /* Adiciona um pequeno espaço vertical entre os parágrafos dos detalhes */
+    /* Espaçamento vertical reduzido entre os parágrafos */
 }
 
+/* Estilos para blocos de código na página de erro */
 .error-page pre {
     background-color: #f8f8f8;
-    /* Define um fundo cinza claro para blocos de código */
+    /* Fundo cinza claro para blocos de código */
     border: 1px solid #ddd;
-    /* Adiciona uma borda ao redor do bloco de código */
+    /* Borda sutil ao redor */
     border-radius: 4px;
-    /* Arredonda os cantos do bloco de código */
+    /* Cantos arredondados */
     padding: 15px;
-    /* Adiciona espaço interno ao bloco de código */
+    /* Espaço interno para facilitar a leitura */
     overflow-x: auto;
-    /* Adiciona uma barra de rolagem horizontal se o conteúdo for muito largo */
+    /* Barra de rolagem horizontal para conteúdos largos */
     font-size: 0.9em;
-    /* Reduz ligeiramente o tamanho da fonte do código */
+    /* Tamanho de fonte reduzido */
     margin-top: 20px;
-    /* Adiciona espaço acima do bloco de código */
+    /* Espaço acima do bloco de código */
 }
 
-/* =========================================
+
+
+/* ====================================================
    Estilos da Página Inicial (Hero Section)
-   ========================================= */
+   ==================================================== */
+
+/* Container da seção principal (Hero) que ocupa toda a altura da viewport */
 .hero-section {
     height: 100vh;
-    /* Ocupa toda a altura da viewport */
+    /* Altura igual à altura da janela */
     background-image: url('../images/background.jpg');
-    /* Define a imagem de fundo */
+    /* Imagem de fundo */
     background-size: cover;
-    /* Cobre toda a área com a imagem de fundo */
+    /* A imagem cobre toda a área */
     background-position: center;
-    /* Centraliza a imagem de fundo */
+    /* Centraliza a imagem */
     display: flex;
-    /* Usa flexbox para centralizar o conteúdo */
+    /* Utiliza flexbox para centralização */
     align-items: center;
     /* Centraliza verticalmente */
     justify-content: center;
     /* Centraliza horizontalmente */
 }
 
+/* Camada de sobreposição com fundo semi-transparente para melhorar a legibilidade */
 .overlay {
     background-color: rgba(0, 0, 0, 0.5);
-    /* Fundo semi-transparente */
+    /* Fundo preto com 50% de transparência */
     padding: 2rem;
     /* Espaçamento interno */
     text-align: center;
@@ -118,85 +134,96 @@ body {
     /* Cantos arredondados */
 }
 
+/* Título principal na Hero Section */
 .hero-section h1 {
     color: white;
-    /* Texto branco para contraste */
+    /* Texto branco para contraste com o fundo */
     font-size: 2.5rem;
     /* Tamanho grande para destaque */
     margin-bottom: 1rem;
     /* Espaço abaixo do título */
 }
 
+/* Elemento divisor na Hero Section */
 .divider {
     width: 80%;
-    /* Largura de 80% do container */
+    /* Ocupa 80% da largura do container */
     margin: 1rem auto;
-    /* Centraliza horizontalmente com espaço vertical */
+    /* Centralizado horizontalmente com margem vertical */
     border-top: 2px solid white;
-    /* Linha branca */
+    /* Linha superior branca */
 }
 
+/* Estilização para o logo (se presente) */
 .logo {
     max-width: 200px;
     /* Largura máxima do logo */
     height: auto;
-    /* Mantém a proporção da imagem */
+    /* Mantém a proporção original */
 }
 
-/* =========================================
-   Estilos da Sidebar e Navegação
-   ========================================= */
 
-/* Configurações básicas da sidebar */
+
+/* ====================================================
+   Estilos da Sidebar e Navegação
+   ==================================================== */
+
+/* ===================== Sidebar ===================== */
+
+/* Estilos básicos para a sidebar fixa */
 #sidebar {
     transition: width 0.3s ease;
-    /* Animação suave ao expandir/colapsar */
+    /* Animação suave ao alterar a largura */
     width: 250px;
-    /* Largura da sidebar expandida */
+    /* Largura quando expandida */
     height: 100vh;
-    /* Altura total da viewport */
+    /* Ocupa toda a altura da viewport */
     position: fixed;
-    /* Mantém a sidebar fixa durante a rolagem */
+    /* Fixa a sidebar durante a rolagem */
     background-color: #212529;
-    /* Cor de fundo escura */
+    /* Fundo escuro */
     z-index: 1000;
-    /* Garante que a sidebar fique sobre outros elementos */
+    /* Fica sobre outros elementos */
 }
 
-/* Estado colapsado da sidebar */
+/* Estado colapsado da sidebar: largura reduzida */
 #sidebar.collapsed {
     width: 4.5rem;
     /* Largura reduzida quando colapsada */
 }
 
-/* Oculta elementos de texto quando a sidebar está colapsada */
+/* Oculta elementos de texto dentro da sidebar quando colapsada */
 #sidebar.collapsed .d-sm-inline {
     display: none !important;
-    /* Oculta textos quando colapsada */
+    /* Garante que os textos sejam ocultados */
 }
 
-/* Ajustes do conteúdo principal */
+/* ===================== Conteúdo Principal ===================== */
+
+/* Ajusta o conteúdo principal para acomodar a sidebar */
 #content {
     transition: margin-left 0.3s ease;
-    /* Animação suave do margin */
+    /* Animação suave ao alterar a margem */
     margin-left: 250px;
-    /* Margem inicial igual à largura da sidebar */
+    /* Espaço reservado para a sidebar expandida */
     min-height: 100vh;
     /* Altura mínima igual à viewport */
 }
 
-/* Estado expandido do conteúdo */
+/* Quando a sidebar está colapsada, o conteúdo se ajusta */
 #content.expanded {
     margin-left: 4.5rem;
-    /* Margem reduzida quando sidebar está colapsada */
+    /* Reduz a margem para acomodar a sidebar colapsada */
 }
 
-/* Estilos dos links de navegação */
+/* ===================== Navegação ===================== */
+
+/* Estilização dos links de navegação na sidebar */
 .nav-link {
     color: #fff;
-    /* Cor do texto dos links */
+    /* Texto branco */
     transition: all 0.3s;
-    /* Transição suave para hover */
+    /* Transição suave para interações */
     padding: 0.5rem 1rem;
     /* Espaçamento interno dos links */
     display: flex;
@@ -205,128 +232,131 @@ body {
     /* Centraliza verticalmente */
 }
 
-/* Efeito hover nos links */
+/* Efeito hover para os links de navegação */
 .nav-link:hover {
     color: #fff;
-    /* Mantém a cor do texto */
+    /* Mantém a cor branca */
     background-color: rgba(255, 255, 255, 0.1);
-    /* Fundo sutil ao hover */
+    /* Fundo levemente destacado */
     border-radius: 4px;
     /* Cantos arredondados */
 }
 
-/* Separador no menu */
+/* Separador utilizado no menu da sidebar */
 .menu-separator {
     height: 1px;
-    /* Altura da linha */
+    /* Altura de 1px */
     background-color: rgba(255, 255, 255, 0.1);
-    /* Cor da linha */
+    /* Linha sutil branca */
     margin: 0.5rem 0;
     /* Espaçamento vertical */
     width: 100%;
-    /* Largura total */
+    /* Ocupa toda a largura */
 }
 
 /* Ajuste do separador quando a sidebar está colapsada */
 #sidebar.collapsed .menu-separator {
     margin: 0.5rem auto;
-    /* Centraliza quando colapsado */
+    /* Centraliza o separador */
     width: 80%;
-    /* Largura reduzida quando colapsado */
+    /* Largura reduzida */
 }
 
-/* Estilos para a área do usuário na sidebar */
+/* ===================== Área do Usuário na Sidebar ===================== */
+
+/* Container com informações do usuário */
 .user-info {
     padding: 1rem;
     /* Espaçamento interno */
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    /* Linha separadora sutil */
+    /* Linha separadora sutil na parte inferior */
     margin-bottom: 1rem;
-    /* Espaço abaixo */
+    /* Espaço abaixo da área do usuário */
 }
 
-/* Estilo do ícone do usuário */
+/* Ícone do usuário */
 .user-info i {
     color: #ffffff;
-    /* Cor branca para o ícone */
+    /* Ícone em branco */
 }
 
-/* Estilo do texto principal do usuário */
+/* Texto principal (nome) do usuário */
 .user-info .fs-6 {
     color: #ffffff;
-    /* Cor branca para o nome do usuário */
+    /* Nome em branco */
 }
 
-/* Estilo do texto secundário na área do usuário */
+/* Texto secundário (perfil ou outro detalhe) do usuário */
 .user-info .text-muted {
     font-size: 0.8rem;
-    /* Tamanho menor para o texto do perfil */
+    /* Tamanho menor */
     opacity: 0.7;
-    /* Mais suave */
+    /* Aparência mais suave */
 }
 
-/* Ajustes para sidebar colapsada */
+/* Ajustes para a área do usuário quando a sidebar está colapsada */
 #sidebar.collapsed .user-info {
     padding: 0.5rem;
-    /* Reduz o padding quando colapsado */
+    /* Menos espaço interno */
     text-align: center;
     /* Centraliza o conteúdo */
 }
 
-/* Oculta textos na área do usuário quando colapsada */
+/* Oculta textos na área do usuário quando a sidebar está colapsada */
 #sidebar.collapsed .user-info span,
 #sidebar.collapsed .user-info small {
     display: none;
-    /* Remove os textos */
+    /* Esconde os textos */
 }
 
-/* Centraliza o ícone do usuário quando colapsado */
+/* Centraliza o ícone do usuário quando colapsado e aumenta um pouco seu tamanho */
 #sidebar.collapsed .user-info i {
     margin: 0 auto;
     /* Centraliza horizontalmente */
     font-size: 1.5rem;
-    /* Aumenta um pouco o tamanho do ícone */
+    /* Ícone um pouco maior */
 }
 
-/* Estilos do rodapé da sidebar */
+/* ===================== Rodapé da Sidebar ===================== */
+
+/* Estilos para o rodapé da sidebar */
 .sidebar-footer {
     padding: 1rem;
     /* Espaçamento interno */
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    /* Linha separadora superior */
+    /* Linha separadora no topo */
     margin-top: auto;
-    /* Empurra para o final da sidebar */
+    /* Empurra o rodapé para o final */
 }
 
-/* Ajustes do rodapé quando colapsado */
+/* Rodapé da sidebar quando colapsada */
 #sidebar.collapsed .sidebar-footer {
     padding: 0.5rem;
-    /* Reduz o padding */
+    /* Reduz o espaçamento */
 }
 
-/* Ajustes do botão de sair quando colapsado */
+/* Botão de sair no rodapé da sidebar (quando colapsada) */
 #sidebar.collapsed .sidebar-footer .btn {
     padding: 0.25rem;
-    /* Reduz o padding do botão */
+    /* Espaçamento interno reduzido */
     width: 2.5rem;
     /* Largura fixa */
     height: 2.5rem;
     /* Altura fixa */
     display: flex;
-    /* Usa flexbox */
+    /* Usa flexbox para centralizar */
     justify-content: center;
     /* Centraliza horizontalmente */
     align-items: center;
     /* Centraliza verticalmente */
 }
 
-/* Oculta o texto do botão de sair quando colapsado */
+/* Oculta o texto do botão de sair quando a sidebar está colapsada */
 #sidebar.collapsed .sidebar-footer .btn span {
     display: none;
-    /* Remove o texto */
 }
 
-/* Ajusta o ícone do botão de sair quando colapsado */
+/* Ajusta o ícone do botão de sair para melhor visualização */
 #sidebar.collapsed .sidebar-footer .btn i {
     margin: 0;
     /* Remove margens */
@@ -334,240 +364,274 @@ body {
     /* Ajusta o tamanho do ícone */
 }
 
-/* =========================================
-   Estilos Genéricos para Tabelas Dinâmicas
-   ========================================= */
 
-/* Cabeçalho ordenável - Define estilos base para colunas ordenáveis */
+
+/* ====================================================
+   Estilos Genéricos para Tabelas Dinâmicas
+   ==================================================== */
+
+/* -------------------- Cabeçalho Ordenável -------------------- */
+
+/* Define o cursor e posicionamento para cabeçalhos clicáveis */
 .sort {
     cursor: pointer;
-    /* Muda o cursor para indicar que é clicável */
+    /* Indica que o cabeçalho é clicável */
     position: relative;
-    /* Estabelece posicionamento relativo para elementos internos */
+    /* Permite posicionamento relativo dos pseudo-elementos */
     user-select: none;
-    /* Impede a seleção do texto do cabeçalho */
+    /* Impede a seleção de texto */
 }
 
-/* Adiciona ícone de ordenação para todas as colunas ordenáveis */
+/* Ícone padrão de ordenação para cabeçalhos */
 .sort::after {
     font-family: "bootstrap-icons";
-    /* Define a fonte de ícones (nome correto) */
+    /* Fonte de ícones */
     content: "\F3CA";
-    /* Código do ícone de ordenação (três linhas) */
+    /* Código do ícone padrão (três linhas) */
     font-size: 0.8em;
-    /* Tamanho reduzido para o ícone */
+    /* Tamanho reduzido do ícone */
     margin-left: 5px;
     /* Espaço entre o texto e o ícone */
     opacity: 0.3;
-    /* Torna o ícone mais sutil */
+    /* Ícone sutil por padrão */
     display: inline-block;
-    /* Alinha o ícone com o texto */
+    /* Alinha com o texto */
     vertical-align: middle;
-    /* Alinha verticalmente com o texto */
+    /* Alinha verticalmente */
 }
 
-/* Estado ascendente */
+/* Ícone de ordenação ascendente */
 .sort.asc::after {
     content: "\F57B";
-    /* Código do ícone bi-arrow-up (em minúsculo) */
+    /* Código do ícone para ordenação ascendente */
     opacity: 1;
-    /* Torna o ícone mais visível quando ativo */
+    /* Ícone visível quando ativo */
 }
 
-/* Estado descendente */
+/* Ícone de ordenação descendente */
 .sort.desc::after {
     content: "\F575";
-    /* Código do ícone bi-arrow-down (em minúsculo) */
+    /* Código do ícone para ordenação descendente */
     opacity: 1;
-    /* Torna o ícone mais visível quando ativo */
+    /* Ícone visível quando ativo */
 }
 
-/* Campo de pesquisa padrão */
+/* -------------------- Campo de Pesquisa -------------------- */
+
+/* Estilização do campo de busca utilizado nas tabelas */
 .search {
     border-radius: 20px;
-    /* Bordas arredondadas para o campo de busca */
+    /* Bordas arredondadas */
     padding: 0.5rem 1rem;
-    /* Espaçamento interno do campo */
+    /* Espaçamento interno */
     border: 1px solid #dee2e6;
     /* Borda sutil */
     transition: all 0.3s ease;
-    /* Animação suave para interações */
+    /* Transição suave para interações */
 }
 
+/* Efeito ao focar o campo de pesquisa */
 .search:focus {
     box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-    /* Sombra ao focar o campo */
+    /* Sombra de foco */
     border-color: #86b7fe;
     /* Cor da borda ao focar */
     outline: none;
-    /* Remove outline padrão do navegador */
+    /* Remove o outline padrão */
 }
 
-/* Grupo de botões de ação */
+/* -------------------- Botões de Ação -------------------- */
+
+/* Container para agrupar botões de ação com espaçamento */
 .action-buttons {
     display: flex;
-    /* Usa flexbox para alinhar botões */
+    /* Usa flexbox para alinhar os botões */
     gap: 0.5rem;
-    /* Espaçamento entre botões */
+    /* Espaçamento entre os botões */
 }
 
+/* Estilização básica para os botões de ação */
 .action-buttons .btn {
     padding: 0.25rem 0.5rem;
-    /* Espaçamento interno reduzido para botões */
+    /* Espaçamento interno reduzido */
     display: flex;
-    /* Usa flexbox para centralizar ícones */
+    /* Flexbox para centralizar conteúdo */
     align-items: center;
     /* Centraliza verticalmente */
     justify-content: center;
     /* Centraliza horizontalmente */
 }
 
-/* Tabela responsiva */
+/* -------------------- Container de Tabelas -------------------- */
+
+/* Define um container responsivo para tabelas com rolagem horizontal se necessário */
 .table-container {
     overflow-x: auto;
-    /* Adiciona rolagem horizontal se necessário */
+    /* Permite rolagem horizontal */
     margin: 1rem 0;
-    /* Margem vertical */
+    /* Margem vertical para separar de outros elementos */
 }
 
-/* Cabeçalho da página */
+/* -------------------- Cabeçalho da Página -------------------- */
+
+/* Estilização do cabeçalho das páginas que contêm título e ações */
 .page-header {
     display: flex;
-    /* Usa flexbox para layout */
+    /* Utiliza flexbox para layout */
     justify-content: space-between;
-    /* Espaça elementos horizontalmente */
+    /* Distribui o espaço entre os elementos */
     align-items: center;
-    /* Alinha elementos verticalmente */
+    /* Alinha verticalmente */
     margin-bottom: 1.5rem;
     /* Espaço abaixo do cabeçalho */
     padding: 1rem 0;
-    /* Espaçamento vertical */
+    /* Espaçamento vertical interno */
 }
 
-/* Card padrão para conteúdo */
+/* -------------------- Card de Conteúdo -------------------- */
+
+/* Estilização do card que agrupa conteúdo em áreas separadas */
 .content-card {
     background: #fff;
     /* Fundo branco */
     border-radius: 0.5rem;
     /* Bordas arredondadas */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    /* Sombra sutil */
+    /* Sombra sutil para dar destaque */
     padding: 1.5rem;
     /* Espaçamento interno */
-
-    /* Estilos para a paginação */
-    .pagination {
-        display: flex;
-        /* Usa flexbox para alinhamento */
-        justify-content: center;
-        /* Centraliza a paginação */
-        gap: 5px;
-        /* Espaçamento entre os itens */
-        margin-top: 1rem;
-        /* Espaço acima da paginação */
-    }
-
-    .pagination li {
-        display: inline-block;
-        /* Alinha os itens horizontalmente */
-    }
-
-    .pagination li a {
-        padding: 8px 12px;
-        /* Espaçamento interno dos botões */
-        border: 1px solid #dee2e6;
-        /* Borda sutil */
-        border-radius: 4px;
-        /* Cantos arredondados */
-        color: #007bff;
-        /* Cor do texto */
-        text-decoration: none;
-        /* Remove sublinhado */
-        cursor: pointer;
-        /* Indica que é clicável */
-    }
-
-    .pagination li.active a {
-        background-color: #007bff;
-        /* Cor de fundo da página atual */
-        color: white;
-        /* Cor do texto da página atual */
-        border-color: #007bff;
-        /* Cor da borda da página atual */
-    }
-
-    .pagination li a:hover:not(.active) {
-        background-color: #f0f0f0;
-        /* Cor de fundo ao passar o mouse */
-    }
-
 }
 
-/* =========================================
-   Ajuste das colunas da tabela de cargos
-   ========================================= */
+/* Estilização para a paginação dentro de um card */
+.content-card .pagination {
+    display: flex;
+    /* Flexbox para centralizar os itens */
+    justify-content: center;
+    /* Centraliza horizontalmente */
+    gap: 5px;
+    /* Espaçamento entre os itens */
+    margin-top: 1rem;
+    /* Espaço acima da paginação */
+}
+
+/* Itens da paginação */
+.content-card .pagination li {
+    display: inline-block;
+    /* Exibe os itens em linha */
+}
+
+/* Links de paginação */
+.content-card .pagination li a {
+    padding: 8px 12px;
+    /* Espaçamento interno dos links */
+    border: 1px solid #dee2e6;
+    /* Borda sutil */
+    border-radius: 4px;
+    /* Cantos arredondados */
+    color: #007bff;
+    /* Cor do texto */
+    text-decoration: none;
+    /* Remove sublinhado */
+    cursor: pointer;
+    /* Indica que é clicável */
+}
+
+/* Página ativa na paginação */
+.content-card .pagination li.active a {
+    background-color: #007bff;
+    /* Fundo azul para a página ativa */
+    color: white;
+    /* Texto branco */
+    border-color: #007bff;
+    /* Borda combinando com o fundo */
+}
+
+/* Efeito hover para links de paginação (exceto o ativo) */
+.content-card .pagination li a:hover:not(.active) {
+    background-color: #f0f0f0;
+    /* Fundo cinza claro ao passar o mouse */
+}
+
+
+
+/* ====================================================
+   Ajuste das Colunas da Tabela de Cargos
+   ==================================================== */
+
+/* Coluna de ID */
 .col-id {
     width: 5%;
-    /* Largura proporcional da coluna ID */
+    /* Largura proporcional para a coluna de ID */
     min-width: 50px;
-    /* Largura mínima para responsividade */
+    /* Largura mínima para garantir responsividade */
 }
 
+/* Coluna de Nome */
 .col-nome {
     width: 20%;
-    /* Largura proporcional da coluna Nome */
+    /* Largura proporcional para a coluna Nome */
     min-width: 200px;
-    /* Largura mínima para responsividade */
+    /* Largura mínima para boa visualização */
 }
 
+/* Coluna de Descrição */
 .col-descricao {
     width: 65%;
-    /* Largura proporcional da coluna Descrição */
+    /* Largura proporcional para a coluna Descrição */
     min-width: 300px;
-    /* Largura mínima para responsividade */
+    /* Largura mínima para manter a integridade do layout */
 }
 
+/* Coluna de Ações */
 .col-acoes {
     width: 10%;
-    /* Largura proporcional da coluna Ações */
+    /* Largura proporcional para a coluna de ações */
     min-width: 100px;
-    /* Largura mínima para responsividade */
+    /* Largura mínima para os botões/ícones de ação */
 }
 
-/* =========================================
+
+
+/* ====================================================
    Estilos da Página de Login
-   ========================================= */
+   ==================================================== */
+
+/* Estilização do card que envolve o formulário de login */
 .card {
     margin-top: 2rem;
     /* Espaço acima do card */
     border: none;
     /* Remove a borda padrão */
     border-radius: 10px;
-    /* Cantos mais arredondados */
+    /* Cantos mais arredondados para um visual moderno */
 }
 
+/* Estilização do corpo do card de login */
 .card-body {
     padding: 2rem;
-    /* Mais espaço interno */
+    /* Espaçamento interno aumentado para conforto visual */
 }
 
+/* Estilização dos campos de formulário (inputs, selects, etc.) */
 .form-control {
     border-radius: 5px;
     /* Cantos levemente arredondados */
     padding: 0.75rem;
-    /* Mais espaço interno nos inputs */
+    /* Espaço interno para melhor usabilidade */
 }
 
+/* Efeito de foco para os campos de formulário */
 .form-control:focus {
     border-color: #0d6efd;
-    /* Cor da borda ao focar */
+    /* Borda azul ao focar */
     box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-    /* Sombra ao focar */
+    /* Sombra para indicar foco */
 }
 
+/* Estilização do botão primário (por exemplo, login, cadastro) */
 .btn-primary {
     padding: 0.75rem;
-    /* Mais altura no botão */
+    /* Espaço interno maior para melhor toque */
     font-weight: 500;
-    /* Texto um pouco mais bold */
+    /* Texto um pouco mais em negrito para destaque */
 }
