@@ -122,10 +122,16 @@ Conteúdo Principal da Página de Gerenciamento de Acessos
                                     <h6 class="mb-1">{{ role.NOME_ROLE }}</h6>
                                     <small class="text-muted">{{ role.DESCRICAO }}</small>
                                 </div>
-                                <button class="btn btn-sm btn-outline-primary"
-                                    onclick="editarPerfil({{ role.ID_ROLE }})" title="Editar">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
+                                <div class="btn-group">
+                                    <button class="btn btn-sm btn-outline-primary"
+                                        onclick="editarPerfil({{ role.ID_ROLE }})" title="Editar">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger"
+                                        onclick="excluirPerfil({{ role.ID_ROLE }})" title="Excluir">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         {% endfor %}

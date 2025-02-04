@@ -303,3 +303,52 @@ def get_perfil(id):
         'NOME_ROLE': role.NOME_ROLE,
         'DESCRICAO': role.DESCRICAO
     })
+
+@bp.route('/perfil/<int:id>/excluir', methods=['POST'])
+@login_required
+def excluir_perfil(id):
+    """
+    Exclui um perfil, desde que não haja nenhum usuário associado a ele.
+    Requer que o usuário atual seja Administrador.
+    """
+    # Verifica se o usuário atual é Administrador
+    if current_user.role.NOME_ROLE != 'Administrador':
+        return jsonify({'error': 'Não autorizado'}), 403
+
+    # Busca o perfil a ser excluído ou retorna 404 se não existir
+    perfil = Role.query.get_or_404(id)
+
+    # Verifica se há algum usuário associado a este perfil
+    usuario_associado = User.query.filter_by(ID_ROLE=perfil.ID_ROLE).first()
+    if usuario_associado:
+        return jsonify({
+            'error': 'Não é possível excluir o perfil, pois existem usuários associados a ele.'
+        }), 400
+
+    try:
+        # Armazena os dados anteriores para registro de log
+        # Caso Role possua um método to_dict(), utilize-o; senão, crie um dicionário manualmente.
+        dados_anteriores = perfil.to_dict() if hasattr(perfil, 'to_dict') else {
+            'ID_ROLE': perfil.ID_ROLE,
+            'NOME_ROLE': perfil.NOME_ROLE,
+            'DESCRICAO': perfil.DESCRICAO
+        }
+
+        # Remove o perfil e confirma a transação
+        db.session.delete(perfil)
+        db.session.commit()
+
+        # Registra a ação de exclusão no log
+        registrar_log(
+            usuario_id=current_user.ID_USUARIO,
+            acao='DELETE',
+            tabela='TBROLE',  # ajuste o nome da tabela conforme sua implementação
+            id_registro=id,
+            dados_anteriores=dados_anteriores
+        )
+
+        return jsonify({'message': 'Perfil excluído com sucesso'})
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500

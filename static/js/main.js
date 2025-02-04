@@ -523,6 +523,48 @@ function handleNovoPerfilSubmit(e) {
         });
 }
 
+/**
+ * Função para excluir um perfil.
+ * Solicita confirmação do usuário e envia uma requisição para a API para exclusão do perfil.
+ * Se houver algum erro (por exemplo, se existirem usuários associados), a API retornará uma mensagem de erro,
+ * que será exibida ao usuário. Após exclusão bem-sucedida, a página é recarregada para atualizar a lista.
+ *
+ * @param {number} id - ID do perfil a ser excluído.
+ */
+function excluirPerfil(id) {
+    // Solicita a confirmação do usuário antes de prosseguir
+    if (!confirm("Tem certeza que deseja excluir este perfil?")) {
+        return;
+    }
+
+    // Envia a requisição para a rota de exclusão do perfil
+    fetch(`/auth/perfil/${id}/excluir`, {
+        method: 'POST', // Pode ser alterado para 'DELETE' se o backend estiver configurado para isso
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            // Se a resposta não for ok, tenta extrair a mensagem de erro do JSON retornado
+            if (!response.ok) {
+                return response.json().then(data => {
+                    throw new Error(data.error || "Erro ao excluir perfil");
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Exibe mensagem de sucesso e recarrega a página
+            showSuccessMessage(data.message || "Perfil excluído com sucesso!");
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error("Erro:", error);
+            showErrorMessage(error.message);
+        });
+}
+
+
 /***************************************************************
  *              INICIALIZAÇÃO DE EVENT LISTENERS
  ***************************************************************/
