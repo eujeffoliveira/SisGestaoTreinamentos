@@ -31,7 +31,7 @@ def login():
 
         if user and bcrypt.check_password_hash(user.SENHA, senha):
             # Credenciais corretas: realiza o login
-            login_user(user)
+            login_user(user, remember=False)
             # Atualiza o registro do último acesso do usuário
             user.ULTIMO_ACESSO = datetime.utcnow()
             db.session.commit()

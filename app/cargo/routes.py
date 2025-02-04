@@ -1,7 +1,9 @@
 from flask import render_template, request, redirect, url_for, flash
+from flask_login import login_required, current_user
 from app.extensions import db
 from app.cargo import bp
 from app.cargo.models import Cargo
+from app.autenticacao.models import Role
 
 # Rota para listar os cargos
 @bp.route('/')
@@ -60,7 +62,12 @@ def editar_cargo(id):
 
 # Rota para excluir um cargo
 @bp.route('/excluir/<int:id>', methods=['POST'])
+@login_required
 def excluir_cargo(id):
+    # Verifica se o usuário logado tem permissão para excluir um cargo
+    if current_user.role.NOME_ROLE != 'Administrador':
+        flash('Você não tem permissão para excluir cargos.', 'danger')
+        return redirect(url_for('cargo.listar_cargos')) 
     cargo = Cargo.query.get_or_404(id)
     try:
         db.session.delete(cargo)

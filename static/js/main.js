@@ -31,7 +31,6 @@ function showErrorMessage(message) {
  * @param {string} message - Mensagem de sucesso
  */
 function showSuccessMessage(message) {
-    console.log('Sucesso:', message);
     alert(message); // Futuramente, substitua por um sistema de notificações
 }
 
@@ -232,7 +231,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 table.columns,
                 table.options
             );
-            console.log(`Tabela ${table.id} inicializada:`, tableInstance ? 'Sucesso' : 'Falha');
         }
     });
 });
@@ -259,7 +257,6 @@ async function editarRegistro(route, id) {
         }
 
         const data = await response.json();
-        console.log('Dados recebidos:', data);
 
         // Chama a função específica de preenchimento de formulário com base na rota
         switch (route) {
@@ -324,7 +321,6 @@ async function excluirRegistro(route, id, mensagem = 'Tem certeza que deseja exc
  * @param {number} id - ID do usuário a ser editado
  */
 function editarUsuario(id) {
-    console.log('Iniciando edição do usuário:', id);
 
     fetch(`/auth/usuario/${id}`)
         .then(response => {
@@ -332,7 +328,6 @@ function editarUsuario(id) {
             return response.json();
         })
         .then(data => {
-            console.log('Dados recebidos:', data);
             preencherFormularioUsuario(data);
             abrirModal('editUsuarioModal');
         })
@@ -489,8 +484,6 @@ function preencherFormularioPerfil(data) {
     const editNomeRole = document.getElementById('edit_nome_role');
     const editDescricaoRole = document.getElementById('edit_descricao_role');
     const editRoleId = document.getElementById('edit_role_id');
-
-    console.log('edit_role_id:', editRoleId);
 
     if (editNomeRole) editNomeRole.value = data.NOME_ROLE;
     if (editDescricaoRole) editDescricaoRole.value = data.DESCRICAO;
