@@ -15,9 +15,14 @@ Conteúdo Principal da Página de Gerenciamento de Acessos
     {# Cabeçalho da Página: Título e Botão para Criar Novo Usuário #}
     <div class="page-header">
         <h1>Gerenciamento de Acessos</h1>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novoUsuarioModal">
-            <i class="bi bi-plus-lg"></i> Novo Usuário
-        </button>
+        <div class="btn-group">
+            <button class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#novoUsuarioModal">
+                <i class="bi bi-plus-lg"></i> Novo Usuário
+            </button>
+            <button class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#novoPerfilModal">
+                <i class="bi bi-plus-lg"></i> Novo Perfil
+            </button>
+        </div>
     </div>
 
     {# Exibe mensagens flash (feedback para o usuário) se existirem #}
@@ -198,4 +203,145 @@ Modal para Cadastro de Novo Usuário
         </div>
     </div>
 </div>
+
+{# ====================================================
+Modal para Edição de Usuário
+==================================================== #}
+<div class="modal fade" id="editUsuarioModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            {# Cabeçalho do Modal #}
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Usuário</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            {# Formulário para edição de usuário #}
+            <form id="editUsuarioForm">
+                <div class="modal-body">
+                    {# Campo oculto para armazenar o ID do usuário #}
+                    <input type="hidden" id="edit_usuario_id">
+
+                    {# Campo para Nome #}
+                    <div class="mb-3">
+                        <label for="edit_nome" class="form-label">Nome</label>
+                        <input type="text" class="form-control" id="edit_nome" name="nome" required>
+                    </div>
+
+                    {# Campo para Login #}
+                    <div class="mb-3">
+                        <label for="edit_login" class="form-label">Login</label>
+                        <input type="text" class="form-control" id="edit_login" name="login" required>
+                    </div>
+
+                    {# Campo para Email #}
+                    <div class="mb-3">
+                        <label for="edit_email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="edit_email" name="email" required>
+                    </div>
+
+                    {# Campo para Seleção do Perfil #}
+                    <div class="mb-3">
+                        <label for="edit_id_role" class="form-label">Perfil</label>
+                        <select class="form-select" id="edit_id_role" name="id_role" required>
+                            <option value="">Selecione...</option>
+                            {% for role in roles %}
+                            <option value="{{ role.ID_ROLE }}">{{ role.NOME_ROLE }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    {# Campo para Senha (opcional, para alterar a senha) #}
+                    <div class="mb-3">
+                        <label for="edit_senha" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="edit_senha" name="senha">
+                        <small class="form-text text-muted">Deixe em branco para manter a senha atual.</small>
+                    </div>
+                </div>
+                {# Rodapé do Modal com os botões Cancelar e Salvar #}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{# ====================================================
+Modal para adicionar novo perfil
+==================================================== #}
+<div class="modal fade" id="novoPerfilModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            {# Cabeçalho do Modal #}
+            <div class="modal-header">
+                <h5 class="modal-title">Novo Perfil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            {# Formulário para cadastrar um novo perfil #}
+            <form id="novoPerfilForm" method="POST">
+                <div class="modal-body">
+                    {# Campo para Nome do Perfil #}
+                    <div class="mb-3">
+                        <label for="nome_role" class="form-label">Nome do Perfil</label>
+                        <input type="text" class="form-control" id="nome_role" name="nome_role" required>
+                    </div>
+                    {# Campo para Descrição do Perfil #}
+                    <div class="mb-3">
+                        <label for="descricao_role" class="form-label">Descrição</label>
+                        <textarea class="form-control" id="descricao_role" name="descricao_role" rows="3" required></textarea>
+                    </div>
+                </div>
+                {# Rodapé do Modal com os botões Cancelar e Salvar #}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+{# ====================================================
+Modal para Edição de Perfil
+==================================================== #}
+<div class="modal fade" id="editPerfilModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            {# Cabeçalho do Modal #}
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Perfil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            {# Formulário para edição de perfil #}
+            <form id="editPerfilForm">
+                <div class="modal-body">
+                    {# Campo oculto para armazenar o ID do perfil #}
+                    <input type="hidden" id="edit_role_id">
+
+                    {# Campo para Nome do Perfil #}
+                    <div class="mb-3">
+                        <label for="edit_nome_role" class="form-label">Nome do Perfil</label>
+                        <input type="text" class="form-control" id="edit_nome_role" name="nome_role" required>
+                    </div>
+
+                    {# Campo para Descrição do Perfil #}
+                    <div class="mb-3">
+                        <label for="edit_descricao_role" class="form-label">Descrição</label>
+                        <textarea class="form-control" id="edit_descricao_role" name="descricao_role" rows="3"
+                            required></textarea>
+                    </div>
+                </div>
+                {# Rodapé do Modal com os botões Cancelar e Salvar Alterações #}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

@@ -490,6 +490,8 @@ function preencherFormularioPerfil(data) {
     const editDescricaoRole = document.getElementById('edit_descricao_role');
     const editRoleId = document.getElementById('edit_role_id');
 
+    console.log('edit_role_id:', editRoleId);
+
     if (editNomeRole) editNomeRole.value = data.NOME_ROLE;
     if (editDescricaoRole) editDescricaoRole.value = data.DESCRICAO;
     if (editRoleId) editRoleId.value = data.ID_ROLE;
@@ -520,6 +522,32 @@ function handleNovoPerfilSubmit(e) {
         .catch(error => {
             console.error('Erro:', error);
             showErrorMessage('Erro ao criar perfil');
+        });
+}
+
+/**
+ * Atualiza os dados de um perfil.
+ * Envia os dados atualizados para o servidor via método PUT.
+ * @param {number} perfilId - ID do perfil
+ * @param {Object} dados - Dados atualizados do perfil
+ */
+function atualizarPerfil(perfilId, dados) {
+    fetch(`/auth/perfil/${perfilId}`, {
+        method: 'PUT', // Certifique-se de que o backend esteja preparado para receber PUT
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+    })
+        .then(response => {
+            if (!response.ok) throw new Error('Falha ao atualizar perfil');
+            return response.json();
+        })
+        .then(data => {
+            showSuccessMessage('Perfil atualizado com sucesso!');
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            showErrorMessage('Erro ao atualizar perfil');
         });
 }
 
@@ -568,11 +596,6 @@ function excluirPerfil(id) {
 /***************************************************************
  *              INICIALIZAÇÃO DE EVENT LISTENERS
  ***************************************************************/
-
-/**
- * Configura os event listeners para formulários de edição de usuário e criação de novo perfil.
- * Executa as configurações quando o DOM estiver completamente carregado.
- */
 document.addEventListener('DOMContentLoaded', function () {
     // Event Listener para o formulário de edição de usuário
     const editUsuarioForm = document.getElementById('editUsuarioForm');
@@ -596,5 +619,58 @@ document.addEventListener('DOMContentLoaded', function () {
     const novoPerfilForm = document.getElementById('novoPerfilForm');
     if (novoPerfilForm) {
         novoPerfilForm.addEventListener('submit', handleNovoPerfilSubmit);
+    }
+
+    /**
+ * Trata o envio do formulário para criação de um novo perfil.
+ * Envia os dados via método POST e atualiza a página após sucesso.
+ * @param {Event} e - Evento de submit do formulário
+ */
+    function handleNovoPerfilSubmit(e) {
+        e.preventDefault();
+        // Altere as chaves para corresponder ao que o backend espera
+        const dados = {
+            nome_role: document.getElementById('nome_role').value,
+            descricao_role: document.getElementById('descricao_role').value
+        };
+
+        fetch('/auth/perfil', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dados)
+        })
+            .then(response => {
+                // Opcional: Verificar se a resposta está ok antes de converter para JSON
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.error || "Erro ao criar perfil");
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                showSuccessMessage('Perfil criado com sucesso!');
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                showErrorMessage('Erro ao criar perfil');
+            });
+    }
+
+    // Event Listener para o formulário de edição de perfil
+    const editPerfilForm = document.getElementById('editPerfilForm');
+    if (editPerfilForm) {
+        editPerfilForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const perfilId = document.getElementById('edit_role_id').value;
+
+            const dados = {
+                nome_role: document.getElementById('edit_nome_role').value,
+                descricao: document.getElementById('edit_descricao_role').value
+            };
+
+            atualizarPerfil(perfilId, dados);
+        });
     }
 });

@@ -287,6 +287,55 @@ def excluir_usuario(id):
 #        API - GERENCIAMENTO DE PERFIS (ADMIN)
 # ========================================================
 
+@bp.route('/perfil', methods=['POST'])
+@login_required
+def add_role():
+    """
+    Adiciona um novo perfil (Role) ao sistema.
+    Requer que o usuário atual seja Administrador.
+    Recebe os dados via JSON ou via formulário e cria um novo perfil.
+    """
+    if current_user.role.NOME_ROLE != 'Administrador':
+        return jsonify({'error': 'Não autorizado'}), 403
+
+    # Se a requisição vier como JSON, utiliza request.get_json(), senão pega os dados do formulário.
+    data = request.get_json() if request.is_json else request.form.to_dict()
+
+    # Obtém os dados esperados
+    nome_role = data.get('nome_role')
+    descricao_role = data.get('descricao_role')
+
+    # Valida os dados (você pode acrescentar outras validações, se necessário)
+    if not nome_role or not descricao_role:
+        return jsonify({'error': 'Nome e descrição são obrigatórios'}), 400
+
+    try:
+        # Cria um novo objeto Role com os dados recebidos
+        new_role = Role(
+            NOME_ROLE=nome_role,
+            DESCRICAO=descricao_role
+        )
+        db.session.add(new_role)
+        db.session.commit()
+
+        # Registra a ação de inserção no log
+        registrar_log(
+            usuario_id=current_user.ID_USUARIO,
+            acao='INSERT',
+            tabela='TBROLE',  # ajuste para o nome da sua tabela de perfis, se necessário
+            id_registro=new_role.ID_ROLE,
+            dados_novos=new_role.to_dict() if hasattr(new_role, 'to_dict') else {
+                'ID_ROLE': new_role.ID_ROLE,
+                'NOME_ROLE': new_role.NOME_ROLE,
+                'DESCRICAO': new_role.DESCRICAO
+            }
+        )
+
+        return jsonify({'message': 'Perfil criado com sucesso!'})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
 @bp.route('/perfil/<int:id>', methods=['GET'])
 @login_required
 def get_perfil(id):
@@ -303,6 +352,55 @@ def get_perfil(id):
         'NOME_ROLE': role.NOME_ROLE,
         'DESCRICAO': role.DESCRICAO
     })
+    
+@bp.route('/perfil/<int:id>', methods=['PUT'])
+@login_required
+def update_perfil(id):
+    """
+    Atualiza os dados de um perfil.
+    Requer que o usuário atual seja Administrador.
+    Permite atualizar o nome e a descrição do perfil.
+    """
+    if current_user.role.NOME_ROLE != 'Administrador':
+        return jsonify({'error': 'Não autorizado'}), 403
+
+    # Busca o perfil ou retorna 404 se não existir
+    perfil = Role.query.get_or_404(id)
+    data = request.get_json()
+
+    try:
+        # Guarda os dados anteriores para o log
+        dados_anteriores = perfil.to_dict() if hasattr(perfil, 'to_dict') else {
+            'ID_ROLE': perfil.ID_ROLE,
+            'NOME_ROLE': perfil.NOME_ROLE,
+            'DESCRICAO': perfil.DESCRICAO
+        }
+
+        # Atualiza os campos do perfil com os dados recebidos
+        perfil.NOME_ROLE = data.get('nome_role', perfil.NOME_ROLE)
+        perfil.DESCRICAO = data.get('descricao', perfil.DESCRICAO)
+
+        db.session.commit()
+
+        # Registra a alteração no log
+        registrar_log(
+            usuario_id=current_user.ID_USUARIO,
+            acao='UPDATE',
+            tabela='TBROLE',  # ajuste o nome da tabela conforme sua implementação
+            id_registro=perfil.ID_ROLE,
+            dados_anteriores=dados_anteriores,
+            dados_novos=perfil.to_dict() if hasattr(perfil, 'to_dict') else {
+                'ID_ROLE': perfil.ID_ROLE,
+                'NOME_ROLE': perfil.NOME_ROLE,
+                'DESCRICAO': perfil.DESCRICAO
+            }
+        )
+
+        return jsonify({'message': 'Perfil atualizado com sucesso'})
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
 
 @bp.route('/perfil/<int:id>/excluir', methods=['POST'])
 @login_required
