@@ -635,3 +635,46 @@ body {
     font-weight: 500;
     /* Texto um pouco mais em negrito para destaque */
 }
+
+/* ====================================================
+   Estilos Específicos para a Página de Logs
+   ==================================================== */
+
+/* Ajusta os filtros para garantir o alinhamento */
+.logs-filters .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ajusta a altura dos campos de entrada */
+.logs-filters .form-control,
+.logs-filters .form-select {
+    height: 38px;
+    font-size: 0.875rem;
+}
+
+/* Ajusta a largura dos botões para ficarem uniformes */
+.logs-buttons {
+    display: flex;
+    gap: 5px;
+    align-items: end;
+}
+
+/* Reduz o tamanho dos botões e alinha */
+.logs-buttons .btn {
+    height: 38px;
+    font-size: 0.875rem;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Garante que o botão de exportação esteja proporcional */
+.logs-buttons .btn-group {
+    flex-grow: 0;
+}
+
+.logs-buttons .dropdown-toggle {
+    height: 38px;
+}

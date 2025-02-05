@@ -1,11 +1,15 @@
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, Response, send_file
 from flask_login import login_required
 from app.extensions import db
 from app.logs import bp
 from app.logs.models import Log
 from app.autenticacao.models import User
 from datetime import datetime
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
 import json
+import pandas as pd
 
 @bp.route('/logs', methods=['GET'])
 @login_required
@@ -117,3 +121,64 @@ def registrar_log(usuario_id, acao, tabela, id_registro, dados_anteriores=None, 
     # Adiciona e persiste o log no banco de dados
     db.session.add(novo_log)
     db.session.commit()
+
+# Rota para exportar os dados do log em formato CSV, Excel ou PDF
+@bp.route('/exportar/<formato>', methods=['GET'])
+@login_required
+def exportar_logs(formato):
+    """ Exporta os logs nos formatos CSV, Excel ou PDF """
+    
+    logs = Log.query.all()  # Obtém todos os logs do banco
+
+    # Converte os dados para um formato estruturado
+    data = []
+    for log in logs:
+        data.append({
+            "ID_LOG": log.ID_LOG,
+            "USUARIO": log.usuario.NOME_USUARIO,
+            "ACAO": log.ACAO,
+            "TABELA": log.TABELA,
+            "ID_REGISTRO": log.ID_REGISTRO,
+            "DADOS_ANTERIORES": json.loads(log.DADOS_ANTERIORES) if log.DADOS_ANTERIORES else None,
+            "DADOS_NOVOS": json.loads(log.DADOS_NOVOS) if log.DADOS_NOVOS else None,
+            "DATA_HORA": log.DATA_HORA.strftime('%d/%m/%Y %H:%M:%S')
+        })
+
+    df = pd.DataFrame(data)  # Converte para DataFrame
+
+    # Exportação para CSV
+    if formato == 'csv':
+        csv_data = df.to_csv(index=False, sep=';', encoding='utf-8')
+        return Response(csv_data, mimetype="text/csv",
+                        headers={"Content-Disposition": "attachment;filename=logs.csv"})
+
+    # Exportação para Excel
+    elif formato == 'excel':
+        output = BytesIO()
+        with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+            df.to_excel(writer, index=False, sheet_name="Logs")
+        output.seek(0)
+        return send_file(output, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                         as_attachment=True, download_name="logs.xlsx")
+
+    # Exportação para PDF
+    elif formato == 'pdf':
+        output = BytesIO()
+        p = canvas.Canvas(output, pagesize=letter)
+        p.drawString(100, 750, "Relatório de Logs")
+
+        y = 730
+        for log in data:
+            linha = f"{log['DATA_HORA']} - {log['USUARIO']} - {log['ACAO']} - {log['TABELA']} (ID: {log['ID_REGISTRO']})"
+            p.drawString(50, y, linha)
+            y -= 20
+            if y < 50:  # Quebra de página
+                p.showPage()
+                y = 750
+
+        p.save()
+        output.seek(0)
+        return send_file(output, mimetype="application/pdf",
+                         as_attachment=True, download_name="logs.pdf")
+
+    return jsonify({"erro": "Formato não suportado"}), 400

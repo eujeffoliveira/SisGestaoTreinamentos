@@ -47,6 +47,14 @@ function abrirModal(modalId) {
     modal.show();
 }
 
+/** 
+ * Função para exportar dados de uma tabela para um arquivo CSV, Excel ou PDF.
+ */
+function exportar(formato) {
+    window.location.href = "/logs/exportar/" + formato;
+}
+
+
 /***************************************************************
  *                           FOOTER
  ***************************************************************/
@@ -691,3 +699,10 @@ function mostrarDetalhes(id) {
         })
         .catch(error => console.error("Erro ao buscar detalhes do log:", error));
 }
+
+function limparFiltros() {
+    // Redireciona para a mesma página sem parâmetros na URL
+    window.location.href = window.location.pathname;
+}
+
+

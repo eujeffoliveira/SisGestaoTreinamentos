@@ -8,3 +8,5 @@ flask-login
 flask-bcrypt
 wfastcgi
 os-sys
+reportlab
+xlsxwriter

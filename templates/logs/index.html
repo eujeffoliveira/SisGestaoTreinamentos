@@ -5,8 +5,8 @@
     <h2 class="mt-4">Logs do Sistema</h2>
 
     <!-- Filtros -->
-    <form method="GET" class="row g-3">
-        <div class="col-md-3">
+    <form method="GET" class="row g-2 logs-filters">
+        <div class="col-md-3 form-group">
             <label for="usuario" class="form-label">Usuário</label>
             <select name="usuario_id" class="form-select">
                 <option value="">Todos</option>
@@ -16,7 +16,7 @@
             </select>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-2 form-group">
             <label for="acao" class="form-label">Ação</label>
             <select name="acao" class="form-select">
                 <option value="">Todas</option>
@@ -26,20 +26,35 @@
             </select>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-2 form-group">
             <label for="data_inicio" class="form-label">Data Início</label>
             <input type="date" name="data_inicio" class="form-control">
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-2 form-group">
             <label for="data_fim" class="form-label">Data Fim</label>
             <input type="date" name="data_fim" class="form-control">
         </div>
 
-        <div class="col-md-3 d-flex align-items-end">
-            <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+        <!-- Botões -->
+        <div class="col-md-3 d-flex logs-buttons">
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+            <button type="button" class="btn btn-secondary" onclick="limparFiltros()">Limpar</button>
+
+            <!-- Botão de Exportação -->
+            <div class="btn-group">
+                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown">
+                    Exportar
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="javascript:void(0);" onclick="exportar('excel')">Excel</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);" onclick="exportar('pdf')">PDF</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);" onclick="exportar('csv')">CSV</a></li>
+                </ul>
+            </div>
         </div>
     </form>
+
 
     <!-- Tabela de Logs -->
     <table class="table table-striped mt-4">
