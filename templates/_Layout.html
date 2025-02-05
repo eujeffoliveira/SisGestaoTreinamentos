@@ -42,54 +42,63 @@
                     <!-- Menu Principal -->
                     <div class="flex-grow-1 px-3">
                         <ul class="nav flex-column" id="menu">
+                            <!-- link para a página inicial do sistema -->
                             <li class="nav-item">
                                 <a href="{{ url_for('home') }}" class="nav-link text-white">
                                     <i class="bi bi-house-door"></i>
                                     <span class="ms-1 d-sm-inline">Home</span>
                                 </a>
                             </li>
+                            <!-- link para a página de cargos -->
                             <li class="nav-item">
                                 <a href="{{ url_for('cargo.listar_cargos') }}" class="nav-link text-white">
                                     <i class="bi bi-person-badge"></i>
                                     <span class="ms-1 d-sm-inline">Cargos</span>
                                 </a>
                             </li>
+                            <!-- link para a página de centro de custo -->
                             <li class="nav-item">
                                 <a href="/centrodecusto" class="nav-link text-white">
                                     <i class="bi bi-building"></i>
                                     <span class="ms-1 d-sm-inline">Centro de Custo</span>
                                 </a>
                             </li>
+                            <!-- link para a página de departamentos -->
                             <li class="nav-item">
                                 <a href="/departamentos" class="nav-link text-white">
                                     <i class="bi bi-diagram-3"></i>
                                     <span class="ms-1 d-sm-inline">Departamentos</span>
                                 </a>
                             </li>
+                            <!-- link para a página de colaboradores -->
                             <li class="nav-item">
                                 <a href="/colaboradores" class="nav-link text-white">
                                     <i class="bi bi-people"></i>
                                     <span class="ms-1 d-sm-inline">Colaboradores</span>
                                 </a>
                             </li>
+                            <!-- link para a página de treinamentos -->
                             <li class="nav-item">
                                 <a href="/treinamentos" class="nav-link text-white">
                                     <i class="bi bi-journal-text"></i>
                                     <span class="ms-1 d-sm-inline">Treinamentos</span>
                                 </a>
                             </li>
+                            <!-- link para a página de treinamentos por cargo -->
                             <li class="nav-item">
                                 <a href="/treina_cargo" class="nav-link text-white">
                                     <i class="bi bi-person-workspace"></i>
                                     <span class="ms-1 d-sm-inline">Treinamentos Por Cargo</span>
                                 </a>
                             </li>
+                            <!-- link para a página de treinamentos por colaborador -->
                             <li class="nav-item">
                                 <a href="/treina_colaborador" class="nav-link text-white">
                                     <i class="bi bi-person-video3"></i>
                                     <span class="ms-1 d-sm-inline">Treinamentos Por Colaborador</span>
                                 </a>
                             </li>
+                            <!-- link para o dashboard -->
                             <li class="nav-item">
                                 <a href="/dashboard" class="nav-link text-white">
                                     <i class="bi bi-speedometer2"></i>
@@ -97,10 +106,18 @@
                                 </a>
                             <li class="nav-item menu-separator"></li>
                             </li>
+                            <!-- link para a página de usuários -->
                             <li class="nav-item">
                                 <a href="{{ url_for('auth.gerenciar_acesso') }}" class="nav-link text-white">
                                     <i class="bi bi-person-badge"></i>
                                     <span class="ms-1 d-sm-inline">Gerenciar Acesso</span>
+                                </a>
+                            </li>
+                            <!-- link para a página de logs -->
+                            <li class="nav-item">
+                                <a href="{{ url_for('logs.listar_logs') }}" class="nav-link text-white">
+                                    <i class="bi bi-journal-text"></i>
+                                    <span class="ms-1 d-sm-inline">Logs</span>
                                 </a>
                             </li>
                         </ul>

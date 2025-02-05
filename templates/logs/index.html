@@ -1,0 +1,90 @@
+{% extends "_Layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Logs do Sistema</h2>
+
+    <!-- Filtros -->
+    <form method="GET" class="row g-3">
+        <div class="col-md-3">
+            <label for="usuario" class="form-label">Usuário</label>
+            <select name="usuario_id" class="form-select">
+                <option value="">Todos</option>
+                {% for usuario in usuarios %}
+                <option value="{{ usuario.ID_USUARIO }}">{{ usuario.NOME_USUARIO }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <label for="acao" class="form-label">Ação</label>
+            <select name="acao" class="form-select">
+                <option value="">Todas</option>
+                <option value="INSERT">INSERT</option>
+                <option value="UPDATE">UPDATE</option>
+                <option value="DELETE">DELETE</option>
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <label for="data_inicio" class="form-label">Data Início</label>
+            <input type="date" name="data_inicio" class="form-control">
+        </div>
+
+        <div class="col-md-2">
+            <label for="data_fim" class="form-label">Data Fim</label>
+            <input type="date" name="data_fim" class="form-control">
+        </div>
+
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+        </div>
+    </form>
+
+    <!-- Tabela de Logs -->
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Usuário</th>
+                <th>Ação</th>
+                <th>Tabela</th>
+                <th>ID Registro</th>
+                <th>Data/Hora</th>
+                <th>Detalhes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log.ID_LOG }}</td>
+                <td>{{ log.usuario.NOME_USUARIO }}</td>
+                <td>{{ log.ACAO }}</td>
+                <td>{{ log.TABELA }}</td>
+                <td>{{ log.ID_REGISTRO }}</td>
+                <td>{{ log.DATA_HORA.strftime('%d/%m/%Y %H:%M:%S') }}</td>
+                <td>
+                    <button class="btn btn-sm btn-info" onclick="mostrarDetalhes('{{ log.ID_LOG }}')">Ver</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal para Detalhes do Log -->
+<div class="modal fade" id="detalhesLogModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalhes do Log</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="detalhesLogContent">
+                <!-- Conteúdo será preenchido pelo JavaScript -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

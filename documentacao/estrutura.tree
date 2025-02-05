@@ -1,18 +1,10 @@
 📦SisGestaoTreinamentos
  ┣ 📂app
  ┃ ┣ 📂autenticacao
- ┃ ┃ ┣ 📂__pycache__
- ┃ ┃ ┃ ┣ 📜models.cpython-313.pyc
- ┃ ┃ ┃ ┣ 📜routes.cpython-313.pyc
- ┃ ┃ ┃ ┗ 📜__init__.cpython-313.pyc
  ┃ ┃ ┣ 📜models.py
  ┃ ┃ ┣ 📜routes.py
  ┃ ┃ ┗ 📜__init__.py
  ┃ ┣ 📂cargo
- ┃ ┃ ┣ 📂__pycache__
- ┃ ┃ ┃ ┣ 📜models.cpython-313.pyc
- ┃ ┃ ┃ ┣ 📜routes.cpython-313.pyc
- ┃ ┃ ┃ ┗ 📜__init__.cpython-313.pyc
  ┃ ┃ ┣ 📜models.py
  ┃ ┃ ┣ 📜routes.py
  ┃ ┃ ┗ 📜__init__.py
@@ -32,16 +24,9 @@
  ┃ ┃ ┣ 📂templates
  ┃ ┃ ┃ ┣ 📜404.html
  ┃ ┃ ┃ ┗ 📜500.html
- ┃ ┃ ┣ 📂__pycache__
- ┃ ┃ ┃ ┣ 📜handlers.cpython-313.pyc
- ┃ ┃ ┃ ┗ 📜__init__.cpython-313.pyc
  ┃ ┃ ┣ 📜handlers.py
  ┃ ┃ ┗ 📜__init__.py
  ┃ ┣ 📂logs
- ┃ ┃ ┣ 📂__pycache__
- ┃ ┃ ┃ ┣ 📜models.cpython-313.pyc
- ┃ ┃ ┃ ┣ 📜routes.cpython-313.pyc
- ┃ ┃ ┃ ┗ 📜__init__.cpython-313.pyc
  ┃ ┃ ┣ 📜models.py
  ┃ ┃ ┣ 📜routes.py
  ┃ ┃ ┗ 📜__init__.py
