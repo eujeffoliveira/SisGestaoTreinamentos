@@ -27,22 +27,29 @@ def listar_logs():
     data_fim = request.args.get('data_fim')
 
     # Construindo a query base
-    query = Log.query
+    query = db.session.query(Log)
 
     # Aplicando filtros conforme os parâmetros fornecidos
     if usuario_id:
-        query = query.filter(Log.ID_USUARIO == usuario_id)
+        try:
+            usuario_id = int(usuario_id)  # Converte para inteiro para evitar erros de comparação
+            query = query.filter(Log.ID_USUARIO == usuario_id)
+        except ValueError:
+            return jsonify({"erro": "ID de usuário inválido"}), 400
+
     if acao:
-        query = query.filter(Log.ACAO == acao)
+        query = query.filter(Log.ACAO.ilike(f"%{acao}%"))  # Permite buscas parciais
 
     # Tratamento e conversão das datas
-    formato_data = "%Y-%m-%d"  # Define o formato esperado para as datas
+    formato_data = "%Y-%m-%d"
     try:
         if data_inicio:
             data_inicio = datetime.strptime(data_inicio, formato_data)
             query = query.filter(Log.DATA_HORA >= data_inicio)
+
         if data_fim:
             data_fim = datetime.strptime(data_fim, formato_data)
+            data_fim = datetime.combine(data_fim, datetime.max.time())  # Final do dia
             query = query.filter(Log.DATA_HORA <= data_fim)
     except ValueError:
         return jsonify({"erro": "Formato de data inválido. Use AAAA-MM-DD."}), 400
@@ -63,7 +70,7 @@ def detalhes_log(id):
 
     log = Log.query.get_or_404(id)  # Busca o log pelo ID ou retorna erro 404 se não encontrado
     
-    # Converte JSON armazenado como string para um dicionário python
+    # Converte JSON armazenado como string para um dicionário Python
     dados_anteriores = log.DADOS_ANTERIORES
     dados_novos = log.DADOS_NOVOS
     
@@ -116,12 +123,13 @@ def registrar_log(usuario_id, acao, tabela, id_registro, dados_anteriores=None, 
         ID_REGISTRO=id_registro,
         DADOS_ANTERIORES=dados_anteriores_json,
         DADOS_NOVOS=dados_novos_json,
-        DATA_HORA=datetime.timezone.UTC()
+        DATA_HORA=datetime.now()
     )
 
     # Adiciona e persiste o log no banco de dados
     db.session.add(novo_log)
     db.session.commit()
+    
 
 # Rota para exportar os dados do log em formato CSV, Excel ou PDF
 @bp.route('/exportar/<formato>', methods=['GET'])
@@ -129,7 +137,7 @@ def registrar_log(usuario_id, acao, tabela, id_registro, dados_anteriores=None, 
 def exportar_logs(formato):
     """ Exporta os logs nos formatos CSV, Excel ou PDF """
     
-    logs = Log.query.all()  # Obtém todos os logs do banco
+    logs = Log.query.order_by(Log.DATA_HORA.desc()).all()  # Obtém todos os logs ordenados
 
     # Converte os dados para um formato estruturado
     data = []
@@ -161,68 +169,5 @@ def exportar_logs(formato):
         output.seek(0)
         return send_file(output, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                          as_attachment=True, download_name="logs.xlsx")
-
-    # Exportação para PDF
-    if formato == 'pdf':
-        output = BytesIO()
-        p = canvas.Canvas(output, pagesize=A4)
-        width, height = A4
-
-        p.setFont("Helvetica-Bold", 14)
-        p.drawString(50, height - 50, "Relatório de Logs")
-
-        y = height - 70
-        for log in data:
-            p.setFont("Helvetica", 10)
-            linha_principal = f"{log['DATA_HORA']} - {log['USUARIO']} - {log['ACAO']} - {log['TABELA']} (ID: {log['ID_REGISTRO']})"
-            p.drawString(50, y, linha_principal)
-            y -= 15
-
-            # Dados Anteriores
-            if log['DADOS_ANTERIORES'] and log['DADOS_ANTERIORES'] != "-":
-                p.setFont("Helvetica-Bold", 9)
-                p.drawString(70, y, "Dados Anteriores:")
-                y -= 12
-                p.setFont("Helvetica", 8)
-
-                # Converte dicionário para string formatada
-                dados_anteriores = str(log['DADOS_ANTERIORES'])
-                wrapped_text = simpleSplit(dados_anteriores, "Helvetica", 8, width - 100)
-                for line in wrapped_text:
-                    p.drawString(90, y, line)
-                    y -= 10
-
-            # Dados Novos
-            if log['DADOS_NOVOS'] and log['DADOS_NOVOS'] != "-":
-                p.setFont("Helvetica-Bold", 9)
-                p.drawString(70, y, "Dados Novos:")
-                y -= 12
-                p.setFont("Helvetica", 8)
-
-                # Converte dicionário para string formatada
-                dados_novos = str(log['DADOS_NOVOS'])
-                wrapped_text = simpleSplit(dados_novos, "Helvetica", 8, width - 100)
-                for line in wrapped_text:
-                    p.drawString(90, y, line)
-                    y -= 10
-
-            # Linha separadora
-            p.line(50, y, width - 50, y)
-            y -= 15
-
-            # Verifica se precisa de nova página
-            if y < 50:
-                p.showPage()
-                p.setFont("Helvetica-Bold", 14)
-                p.drawString(50, height - 50, "Relatório de Logs (Continuação)")
-                y = height - 70
-
-        p.save()
-        output.seek(0)
-        return send_file(output, 
-                        mimetype="application/pdf",
-                        as_attachment=True, 
-                        download_name="logs.pdf")
-
 
     return jsonify({"erro": "Formato não suportado"}), 400
