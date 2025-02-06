@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * Função genérica para editar um registro com tratamento de erros aprimorado.
  * Realiza uma requisição para obter os dados do registro e, de acordo com a rota,
  * chama a função responsável por preencher o formulário correspondente.
- * @param {string} route - Rota base para edição (ex: 'usuarios', 'cargos', 'colaboradores', 'treinamentos')
+ * @param {string} route - Rota base para edição
  * @param {number} id - ID do registro a ser editado
  */
 async function editarRegistro(route, id) {
@@ -704,5 +704,3 @@ function limparFiltros() {
     // Redireciona para a mesma página sem parâmetros na URL
     window.location.href = window.location.pathname;
 }
-
-

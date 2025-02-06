@@ -7,7 +7,8 @@ from app.autenticacao.models import User
 from datetime import datetime
 from io import BytesIO
 from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.utils import simpleSplit
 import json
 import pandas as pd
 
@@ -115,7 +116,7 @@ def registrar_log(usuario_id, acao, tabela, id_registro, dados_anteriores=None, 
         ID_REGISTRO=id_registro,
         DADOS_ANTERIORES=dados_anteriores_json,
         DADOS_NOVOS=dados_novos_json,
-        DATA_HORA=datetime.utcnow()
+        DATA_HORA=datetime.timezone.UTC()
     )
 
     # Adiciona e persiste o log no banco de dados
@@ -162,23 +163,66 @@ def exportar_logs(formato):
                          as_attachment=True, download_name="logs.xlsx")
 
     # Exportação para PDF
-    elif formato == 'pdf':
+    if formato == 'pdf':
         output = BytesIO()
-        p = canvas.Canvas(output, pagesize=letter)
-        p.drawString(100, 750, "Relatório de Logs")
+        p = canvas.Canvas(output, pagesize=A4)
+        width, height = A4
 
-        y = 730
+        p.setFont("Helvetica-Bold", 14)
+        p.drawString(50, height - 50, "Relatório de Logs")
+
+        y = height - 70
         for log in data:
-            linha = f"{log['DATA_HORA']} - {log['USUARIO']} - {log['ACAO']} - {log['TABELA']} (ID: {log['ID_REGISTRO']})"
-            p.drawString(50, y, linha)
-            y -= 20
-            if y < 50:  # Quebra de página
+            p.setFont("Helvetica", 10)
+            linha_principal = f"{log['DATA_HORA']} - {log['USUARIO']} - {log['ACAO']} - {log['TABELA']} (ID: {log['ID_REGISTRO']})"
+            p.drawString(50, y, linha_principal)
+            y -= 15
+
+            # Dados Anteriores
+            if log['DADOS_ANTERIORES'] and log['DADOS_ANTERIORES'] != "-":
+                p.setFont("Helvetica-Bold", 9)
+                p.drawString(70, y, "Dados Anteriores:")
+                y -= 12
+                p.setFont("Helvetica", 8)
+
+                # Converte dicionário para string formatada
+                dados_anteriores = str(log['DADOS_ANTERIORES'])
+                wrapped_text = simpleSplit(dados_anteriores, "Helvetica", 8, width - 100)
+                for line in wrapped_text:
+                    p.drawString(90, y, line)
+                    y -= 10
+
+            # Dados Novos
+            if log['DADOS_NOVOS'] and log['DADOS_NOVOS'] != "-":
+                p.setFont("Helvetica-Bold", 9)
+                p.drawString(70, y, "Dados Novos:")
+                y -= 12
+                p.setFont("Helvetica", 8)
+
+                # Converte dicionário para string formatada
+                dados_novos = str(log['DADOS_NOVOS'])
+                wrapped_text = simpleSplit(dados_novos, "Helvetica", 8, width - 100)
+                for line in wrapped_text:
+                    p.drawString(90, y, line)
+                    y -= 10
+
+            # Linha separadora
+            p.line(50, y, width - 50, y)
+            y -= 15
+
+            # Verifica se precisa de nova página
+            if y < 50:
                 p.showPage()
-                y = 750
+                p.setFont("Helvetica-Bold", 14)
+                p.drawString(50, height - 50, "Relatório de Logs (Continuação)")
+                y = height - 70
 
         p.save()
         output.seek(0)
-        return send_file(output, mimetype="application/pdf",
-                         as_attachment=True, download_name="logs.pdf")
+        return send_file(output, 
+                        mimetype="application/pdf",
+                        as_attachment=True, 
+                        download_name="logs.pdf")
+
 
     return jsonify({"erro": "Formato não suportado"}), 400
