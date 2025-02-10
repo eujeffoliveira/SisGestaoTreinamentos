@@ -675,32 +675,3 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
-
-/***************************************************************
- *                     DETALHES DE LOGS
- ***************************************************************/
-
-function mostrarDetalhes(id) {
-    fetch(`/logs/detalhes/${id}`)
-        .then(response => response.json())
-        .then(data => {
-            let detalhes = `
-                <p><strong>ID:</strong> ${data.ID_LOG}</p>
-                <p><strong>Usuário:</strong> ${data.USUARIO}</p>
-                <p><strong>Ação:</strong> ${data.ACAO}</p>
-                <p><strong>Tabela:</strong> ${data.TABELA}</p>
-                <p><strong>ID do Registro:</strong> ${data.ID_REGISTRO}</p>
-                <p><strong>Data/Hora:</strong> ${data.DATA_HORA}</p>
-                <p><strong>Dados Anteriores:</strong> <pre>${data.DADOS_ANTERIORES || 'N/A'}</pre></p>
-                <p><strong>Dados Novos:</strong> <pre>${data.DADOS_NOVOS || 'N/A'}</pre></p>
-            `;
-            document.getElementById("detalhesLogContent").innerHTML = detalhes;
-            new bootstrap.Modal(document.getElementById("detalhesLogModal")).show();
-        })
-        .catch(error => console.error("Erro ao buscar detalhes do log:", error));
-}
-
-function limparFiltros() {
-    // Redireciona para a mesma página sem parâmetros na URL
-    window.location.href = window.location.pathname;
-}

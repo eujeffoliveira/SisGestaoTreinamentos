@@ -64,7 +64,7 @@ def create_app():
     
     # Blueprint de autenticação
     from app.autenticacao import bp as auth_bp
-    app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(auth_bp, url_prefix='/auth')# Bluep
     
     # Blueprint de logs
     from app.logs import bp as logs_bp
